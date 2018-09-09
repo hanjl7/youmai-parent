@@ -25,6 +25,7 @@
 > 后端框架采用Spring +SpringMVC+mybatis +[Dubbox](https://github.com/dangdangdotcom/dubbox) 。前端采用[angularJS](https://github.com/angular/angular.js) + [Bootstrap](https://github.com/twbs/bootstrap)。
 
 * ## 数据库表结构
+
    表名称    |	 含义
  ------------|------------   
 tb_brand                |	品牌
@@ -40,5 +41,5 @@ tb_content	            | 内容（广告）
 tb_content_category     |	内容（广告）类型
 tb_user                 |	用户
 tb_order                |	订单
-tb_order_item	          | 订单明细
+tb_order_item	         | 订单明细
 tb_pay_log	            | 支付日志
