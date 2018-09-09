@@ -23,6 +23,18 @@
 
 * ## 框架组合
 > 后端框架采用Spring +SpringMVC+mybatis +[Dubbox](https://github.com/dangdangdotcom/dubbox) 。前端采用[angularJS](https://github.com/angular/angular.js) + [Bootstrap](https://github.com/twbs/bootstrap)。
+* ## 工程结构
+| 工程 | 说明 |  
+|------------|------------ |  
+|youmai-parent   | 聚合工程|  
+|youmai-pojo     | 通用实体类层 |
+|youmai-dao      | 通用数据访问层 |  
+|youmai-xxxxx-interface |  某服务层接口 |   
+|youmai-xxxxx-service   |  某服务层实现 |  
+|youmai-xxxxx-web       |  某web工程  |
+
+
+
 
 * ## 数据库表结构
 |   表名称    |	 含义  |  
