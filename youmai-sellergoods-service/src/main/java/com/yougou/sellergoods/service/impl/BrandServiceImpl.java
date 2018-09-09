@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 
+/**
+ * 品牌的服务类
+ */
 @Service
 public class BrandServiceImpl implements BrandService {
 
