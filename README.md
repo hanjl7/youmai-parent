@@ -19,9 +19,12 @@
 ***
 ## 系统构架
 > [SOA](https://zh.wikipedia.org/wiki/%E9%9D%A2%E5%90%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84)是是一种支持面向服务的架构样式。从服务、基于服务开发和服务的结果来看，面向服务是一种思考方式。
-    
+<br>
 
-## 数据库表结构
+* ## 框架组合
+> 后端框架采用Spring +SpringMVC+mybatis +[Dubbox](https://github.com/dangdangdotcom/dubbox) 。前端采用[angularJS](https://github.com/angular/angular.js) + [Bootstrap](https://github.com/twbs/bootstrap)。
+
+* ## 数据库表结构
    表名称    |	 含义
  ------------|------------   
 tb_brand                |	品牌
