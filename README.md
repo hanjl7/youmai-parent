@@ -27,12 +27,12 @@
 * ## 数据库表结构
 
    表名称    |	 含义
- ------------|------------   
+------------|------------   
 tb_brand                |	品牌
 tb_specification        |	规格
 tb_specification_option |	规格选项
 tb_type_template	      | 类型模板：用于关联品牌和规格
-tb_item_cat 	          | 商品分类
+tb_item_cat 	         | 商品分类
 tb_seller               |	商家
 tb_goods                |	商品
 tb_goods_desc           |	商品详情
