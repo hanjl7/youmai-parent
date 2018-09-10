@@ -1,6 +1,7 @@
 package com.youmai.sellergoods.service;
 
 import com.youmai.pojo.TbBrand;
+import entity.PageResult;
 
 import java.util.List;
 
@@ -14,4 +15,7 @@ public interface BrandService {
      * @return
      */
     public List<TbBrand> findAll();
+
+
+    public PageResult findPage(int pageNum,int pageSize);
 }
