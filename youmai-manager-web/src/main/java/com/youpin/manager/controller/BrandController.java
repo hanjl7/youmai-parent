@@ -29,8 +29,10 @@ public class BrandController {
      * @Param [pageNum, pageSize]
      * @return entity.PageResult
      **/
-    @RequestMapping("/findAll")
-    public PageResult findPage(int pageNum, int pageSize) {
-        return brandService.findPage(pageNum, pageSize);
+    @RequestMapping("/findPage")
+    public PageResult findPage(int page, int size) {
+        System.out.println(page);
+        System.out.println(size);
+        return brandService.findPage(page, size);
     }
 }

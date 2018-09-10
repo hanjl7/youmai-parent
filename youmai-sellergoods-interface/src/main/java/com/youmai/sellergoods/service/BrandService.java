@@ -12,10 +12,11 @@ public interface BrandService {
 
     /**
      * 查询所有品牌
+     *
      * @return
      */
     public List<TbBrand> findAll();
 
 
-    public PageResult findPage(int pageNum,int pageSize);
+    public PageResult findPage(int pageNum, int pageSize);
 }

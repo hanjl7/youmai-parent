@@ -10,7 +10,7 @@
 
     <dubbo:protocol name="dubbo" port="20881"></dubbo:protocol>
 	<dubbo:application name="youmai-sellergoods-service"/>
-    <dubbo:registry address="zookeeper://192.168.25.131:2181"/>
+    <dubbo:registry address="zookeeper://192.168.25.25:2181"/>
     <dubbo:annotation package="com.yougou.sellergoods.service.impl" />
    
    
