@@ -69,7 +69,17 @@ public class BrandServiceImpl implements BrandService {
      **/
     @Override
     public void update(TbBrand tbBrand) {
-
+        brandMapper.updateByPrimaryKey(tbBrand);
     }
 
+    /**
+     * @Description 根据id查询品牌
+     * @Date 17:58 2018/9/11
+     * @Param [id]
+     * @return com.youmai.pojo.TbBrand
+     **/
+    @Override
+    public TbBrand findOne(Long id) {
+        return brandMapper.selectByPrimaryKey(id);
+    }
 }

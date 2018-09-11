@@ -26,10 +26,10 @@ public class BrandController {
     }
 
     /**
+     * @return
      * @Description 返回分页列表
      * @Date 19:03 2018/9/10
      * @Param [pageNum, pageSize]
-     * @return
      **/
     @RequestMapping("/findPage")
     public PageResult findPage(Integer page, Integer size) {
@@ -38,19 +38,48 @@ public class BrandController {
     }
 
     /**
+     * @return entity.Result
      * @Description 添加品牌
      * @Date 22:16 2018/9/10
      * @Param [tbBrand]
-     * @return entity.Result
      **/
     @RequestMapping("/add")
-    public Result add(@RequestBody TbBrand tbBrand){
+    public Result add(@RequestBody TbBrand tbBrand) {
         try {
             brandService.add(tbBrand);
-            return new Result(true,"添加成功");
+            return new Result(true, "添加成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,"添加失败");
+            return new Result(false, "添加失败");
         }
     }
+
+    /**
+     * @return com.youmai.pojo.TbBrand
+     * @Description 根据id查询品牌
+     * @Date 18:00 2018/9/11
+     * @Param [id]
+     **/
+    @RequestMapping("/findOne")
+    public TbBrand findOne(Long id) {
+        return brandService.findOne(id);
+    }
+
+    /**
+     * @return entity.Result
+     * @Description 修改
+     * @Date 18:01 2018/9/11
+     * @Param [tbBrand]
+     **/
+    @RequestMapping("/update")
+    public Result update(@RequestBody TbBrand tbBrand) {
+        try {
+            brandService.update(tbBrand);
+            return new Result(true, "修改成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "修改失败");
+        }
+    }
+
 }

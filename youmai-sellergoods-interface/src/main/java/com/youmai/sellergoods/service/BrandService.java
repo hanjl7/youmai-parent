@@ -22,5 +22,7 @@ public interface BrandService {
 
     public void add(TbBrand tbBrand);
 
+    public TbBrand findOne(Long id);
+
     public void update(TbBrand tbBrand);
 }
