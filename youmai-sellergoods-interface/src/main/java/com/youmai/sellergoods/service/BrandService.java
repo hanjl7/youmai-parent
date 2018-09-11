@@ -18,7 +18,10 @@ public interface BrandService {
     public List<TbBrand> findAll();
 
 
+
     public PageResult findPage(Integer pageNum, Integer pageSize);
+
+    public PageResult findPage(TbBrand tbBrand,Integer pageNum, Integer pageSize);
 
     public void add(TbBrand tbBrand);
 

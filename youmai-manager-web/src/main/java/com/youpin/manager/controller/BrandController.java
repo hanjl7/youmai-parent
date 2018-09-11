@@ -99,4 +99,16 @@ public class BrandController {
         }
     }
 
+    /**
+     * @return
+     * @Description 返回分页列表 + 查询
+     * @Date 19:03 2018/9/10
+     * @Param [pageNum, pageSize]
+     **/
+    @RequestMapping("/search")
+    public PageResult searchPage(@RequestBody TbBrand tbBrand,Integer page, Integer size) {
+        PageResult tbBrands = brandService.findPage(tbBrand,page, size);
+        return tbBrands;
+    }
+
 }

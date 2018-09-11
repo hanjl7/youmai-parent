@@ -5,10 +5,12 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.youmai.mapper.TbBrandMapper;
 import com.youmai.pojo.TbBrand;
+import com.youmai.pojo.TbBrandExample;
 import com.youmai.sellergoods.service.BrandService;
 import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -44,17 +46,17 @@ public class BrandServiceImpl implements BrandService {
      **/
     @Override
     public PageResult findPage(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         Page<TbBrand> page = (Page<TbBrand>) brandMapper.selectByExample(null);
-        System.out.println(page);
-        return new PageResult(page.getTotal(),page.getResult());
+
+        return new PageResult(page.getTotal(), page.getResult());
     }
 
     /**
+     * @return void
      * @Description 添加品牌
      * @Date 22:08 2018/9/10
      * @Param [tbBrand]
-     * @return void
      **/
     @Override
     public void add(TbBrand tbBrand) {
@@ -62,10 +64,10 @@ public class BrandServiceImpl implements BrandService {
     }
 
     /**
+     * @return void
      * @Description 修改品牌
      * @Date 17:54 2018/9/11
      * @Param [tbBrand]
-     * @return void
      **/
     @Override
     public void update(TbBrand tbBrand) {
@@ -73,10 +75,10 @@ public class BrandServiceImpl implements BrandService {
     }
 
     /**
+     * @return com.youmai.pojo.TbBrand
      * @Description 根据id查询品牌
      * @Date 17:58 2018/9/11
      * @Param [id]
-     * @return com.youmai.pojo.TbBrand
      **/
     @Override
     public TbBrand findOne(Long id) {
@@ -84,15 +86,40 @@ public class BrandServiceImpl implements BrandService {
     }
 
     /**
+     * @return void
      * @Description 批量删除
      * @Date 18:39 2018/9/11
      * @Param [ids]
-     * @return void
      **/
     @Override
     public void delete(Long[] ids) {
         for (Long id : ids) {
             brandMapper.deleteByPrimaryKey(id);
         }
+    }
+
+    /**
+     * @return
+     * @Description 品牌分页 + 查询
+     * @Date 18:52 2018/9/10
+     * @Param [pageNum=当前页面, pageSize=每页记录数]
+     **/
+    @Override
+    public PageResult findPage(TbBrand tbBrand, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        TbBrandExample example = new TbBrandExample();
+        TbBrandExample.Criteria criteria = example.createCriteria();
+        if (tbBrand != null) {
+            if (tbBrand.getName() != null && tbBrand.getName().length() > 0) {
+                criteria.andNameLike("%" + tbBrand.getName() + "%");
+            }
+            if (tbBrand.getFirstChar() != null && tbBrand.getFirstChar().length() > 0) {
+                criteria.andFirstCharLike("%" + tbBrand.getFirstChar() + "%");
+            }
+        }
+
+        Page<TbBrand> page = (Page<TbBrand>) brandMapper.selectByExample(example);
+
+        return new PageResult(page.getTotal(), page.getResult());
     }
 }

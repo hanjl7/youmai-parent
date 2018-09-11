@@ -80,6 +80,7 @@
         <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
+            <version>3.11.0.GA</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
