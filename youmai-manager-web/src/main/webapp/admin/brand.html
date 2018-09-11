@@ -61,11 +61,10 @@
             //修改品牌
             $scope.save = function () {
                 var methodName = "add";
-                if ($scope.entity.id != null){
+                if ($scope.entity.id != null) {
                     methodName = "update";
                 }
-                alert(methodName);
-                $http.post('../brand/'+methodName+'.do', $scope.entity).success(
+                $http.post('../brand/' + methodName + '.do', $scope.entity).success(
                     function (response) {
                         if (response.success) {
                             $scope.reloadList();//成功刷新
@@ -85,8 +84,32 @@
                 )
             }
 
+            //选中的id集合
+            $scope.selectIds = [];
 
+            $scope.updateSelection = function ($event, id) {
+                if ($event.target.checked) {
+                    //添加
+                    $scope.selectIds.push(id);
+                } else {
+                    var idx = $scope.selectIds.indexOf(id);
+                    //删除
+                    $scope.selectIds.splice(idx, 1);
+                }
 
+            };
+            //删除
+            $scope.deleteBrands = function () {
+                $http.get("../brand/delete.do?ids=" + $scope.selectIds).success(
+                    function (response) {
+                        if (response.success) {
+                            $scope.reloadList();
+                        } else {
+                            alert(response.message)
+                        }
+                    }
+                )
+            }
 
 
         })
@@ -111,9 +134,12 @@
             <div class="form-group form-inline">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" title="新建" data-toggle="modal"
-                            data-target="#editModal" ng-click="entity={}"><i class="fa fa-file-o"></i> 新建
+                            data-target="#editModal" ng-click="entity={}"><i class="fa fa-file-o">
+                    </i> 新建
                     </button>
-                    <button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
+                    <button type="button" class="btn btn-default" title="删除" ng-click="deleteBrands()">
+                        <i class="fa fa-trash-o"></i> 删除
+                    </button>
                     <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i
                             class="fa fa-refresh"></i> 刷新
                     </button>
@@ -142,13 +168,13 @@
             </thead>
             <tbody>
             <tr ng-repeat="entity in list">
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" ng-click="updateSelection($event,entity.id)"></td>
                 <td>{{entity.id}}</td>
                 <td>{{entity.name}}</td>
                 <td>{{entity.firstChar}}</td>
                 <td class="text-center">
                     <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
-                            data-target="#editModal"  ng-click="findOne(entity.id)">修改
+                            data-target="#editModal" ng-click="findOne(entity.id)">修改
                     </button>
                 </td>
             </tr>

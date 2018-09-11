@@ -82,4 +82,17 @@ public class BrandServiceImpl implements BrandService {
     public TbBrand findOne(Long id) {
         return brandMapper.selectByPrimaryKey(id);
     }
+
+    /**
+     * @Description 批量删除
+     * @Date 18:39 2018/9/11
+     * @Param [ids]
+     * @return void
+     **/
+    @Override
+    public void delete(Long[] ids) {
+        for (Long id : ids) {
+            brandMapper.deleteByPrimaryKey(id);
+        }
+    }
 }
