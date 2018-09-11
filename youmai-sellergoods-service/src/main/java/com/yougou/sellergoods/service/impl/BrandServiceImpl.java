@@ -8,6 +8,7 @@ import com.youmai.pojo.TbBrand;
 import com.youmai.sellergoods.service.BrandService;
 import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  * @Date 18:49 2018/9/10
  **/
 @Service
+@Transactional
 public class BrandServiceImpl implements BrandService {
 
     @Autowired
@@ -35,17 +37,39 @@ public class BrandServiceImpl implements BrandService {
     }
 
     /**
-     * @return entity.PageResult
+     * @return
      * @Description 品牌分页
      * @Date 18:52 2018/9/10
      * @Param [pageNum=当前页面, pageSize=每页记录数]
      **/
     @Override
-    public PageResult findPage(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult findPage(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         Page<TbBrand> page = (Page<TbBrand>) brandMapper.selectByExample(null);
-
+        System.out.println(page);
         return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    /**
+     * @Description 添加品牌
+     * @Date 22:08 2018/9/10
+     * @Param [tbBrand]
+     * @return void
+     **/
+    @Override
+    public void add(TbBrand tbBrand) {
+        brandMapper.insert(tbBrand);
+    }
+
+    /**
+     * @Description 修改品牌
+     * @Date 17:54 2018/9/11
+     * @Param [tbBrand]
+     * @return void
+     **/
+    @Override
+    public void update(TbBrand tbBrand) {
+
     }
 
 }

@@ -1,9 +1,4 @@
-package entity;/**
- * @Auther: 泊松
- * @Date: 2018/9/10 18:45
- * @Description:
- */
-
+package entity;
 import java.io.Serializable;
 import java.util.List;
 

@@ -43,7 +43,7 @@
             };
 
             $scope.reloadList = function () {
-                $scope.findPage($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
+                $scope.findPage($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
 
             };
 
@@ -54,13 +54,27 @@
                         $scope.paginationConf.totalItems = response.total;//更新总记录数
                     }
                 )
+            };
+
+
+            //增加品牌
+            $scope.add = function () {
+                $http.post('../brand/add.do',$scope.entity).success(
+                    function (response) {
+                        if (response.success){
+                            $scope.reloadList();//成功刷新
+                        } else {
+                            alert(response.message);//失败提示
+                        }
+                    }
+                )
             }
 
 
         })
     </script>
 
-</head>
+</head>g
 <body class="hold-transition skin-red sidebar-mini"
       ng-app="youmai" ng-controller="brandController" >
 <!-- .box-body -->
@@ -144,16 +158,16 @@
                 <table class="table table-bordered table-striped" width="800px">
                     <tr>
                         <td>品牌名称</td>
-                        <td><input class="form-control" placeholder="品牌名称"></td>
+                        <td><input class="form-control" placeholder="品牌名称" ng-model="entity.name"></td>
                     </tr>
                     <tr>
                         <td>首字母</td>
-                        <td><input class="form-control" placeholder="首字母"></td>
+                        <td><input class="form-control" placeholder="首字母" ng-model="entity.firstChar"></td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="add()">保存</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
