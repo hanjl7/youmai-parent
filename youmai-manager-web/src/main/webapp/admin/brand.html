@@ -21,10 +21,42 @@
 
     <script type="text/javascript">
         var app = angular.module("youmai", ['pagination']);
-        app.controller("brandController", function ($scope, $http) {
+        app.service("brandService", function ($http) {
+            this.findAll = function () {
+                return $http.get("../brand/findAll.do");
+            };
+
+            this.findPage = function (page, size) {
+                return $http.get('../brand/findPage.do?page=' + page + '&size=' + size)
+            };
+
+            this.add = function (entity) {
+                return $http.post('../brand/add.do', entity);
+            };
+
+            this.update = function (entity) {
+                return $http.post('../brand/update.do', entity);
+            };
+            this.findOne = function (id) {
+                return $http.get("../brand/findOne.do?id=" + id);
+            };
+
+            this.deleteBrands = function (selectIds) {
+                return $http.get("../brand/delete.do?ids=" + selectIds);
+            };
+
+            this.search = function (page, size, searchEntity) {
+                return $http.post('../brand/search.do?page=' + page + '&size=' + size, searchEntity);
+            }
+        });
+
+
+        app.controller("brandController", function ($scope, brandService) {
+
+
             //查询品牌列表
             $scope.findAll = function () {
-                $http.get("../brand/findAll.do").success(
+                brandService.findAll().success(
                     function (response) {
                         $scope.list = response;
                     }
@@ -49,7 +81,7 @@
 
             //分页
             $scope.findPage = function (page, size) {
-                $http.get('../brand/findPage.do?page=' + page + '&size=' + size).success(
+                brandService.findPage(page, size).success(
                     function (response) {
                         $scope.list = response.rows;//显示当前页数据
                         $scope.paginationConf.totalItems = response.total;//更新总记录数
@@ -61,11 +93,15 @@
             //增加品牌
             //修改品牌
             $scope.save = function () {
-                var methodName = "add";
+                var object;
                 if ($scope.entity.id != null) {
-                    methodName = "update";
+                    //更新
+                    object = brandService.update($scope.entity);
+                } else {
+                    //添加
+                    object = brandService.save($scope.entity);
                 }
-                $http.post('../brand/' + methodName + '.do', $scope.entity).success(
+                object.success(
                     function (response) {
                         if (response.success) {
                             $scope.reloadList();//成功刷新
@@ -78,12 +114,13 @@
 
             //展示修改的实体
             $scope.findOne = function (id) {
-                $http.get("../brand/findOne.do?id=" + id).success(
+                brandService.findOne(id).success(
                     function (response) {
                         $scope.entity = response;
                     }
                 )
             }
+
 
             //选中的id集合
             $scope.selectIds = [];
@@ -99,9 +136,11 @@
                 }
 
             };
+
+
             //删除
             $scope.deleteBrands = function () {
-                $http.get("../brand/delete.do?ids=" + $scope.selectIds).success(
+                brandService.deleteBrands($scope.selectIds).success(
                     function (response) {
                         if (response.success) {
                             $scope.reloadList();
@@ -110,13 +149,13 @@
                         }
                     }
                 )
-            }
+            };
 
             $scope.searchEntity = {};
 
             //分页 + 查询
             $scope.searchBrand = function (page, size) {
-                $http.post('../brand/search.do?page=' + page + '&size=' + size, $scope.searchEntity).success(
+                brandService.search(page, size, $scope.searchEntity).success(
                     function (response) {
                         $scope.list = response.rows;//显示当前页数据
                         $scope.paginationConf.totalItems = response.total;//更新总记录数
