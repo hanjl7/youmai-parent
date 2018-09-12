@@ -18,154 +18,12 @@
     <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
     <!-- 分页组件结束 -->
 
+    <script type="text/javascript" src="../js/base_pagination.js"></script>
+    <script type="text/javascript" src="../js/service/brandService.js"></script>
+    <script type="text/javascript" src="../js/controller/brandController.js"></script>
 
-    <script type="text/javascript">
-        var app = angular.module("youmai", ['pagination']);
-        app.service("brandService", function ($http) {
-            this.findAll = function () {
-                return $http.get("../brand/findAll.do");
-            };
+    <script type="text/javascript" src="../js/controller/baseController.js"></script>
 
-            this.findPage = function (page, size) {
-                return $http.get('../brand/findPage.do?page=' + page + '&size=' + size)
-            };
-
-            this.add = function (entity) {
-                return $http.post('../brand/add.do', entity);
-            };
-
-            this.update = function (entity) {
-                return $http.post('../brand/update.do', entity);
-            };
-            this.findOne = function (id) {
-                return $http.get("../brand/findOne.do?id=" + id);
-            };
-
-            this.deleteBrands = function (selectIds) {
-                return $http.get("../brand/delete.do?ids=" + selectIds);
-            };
-
-            this.search = function (page, size, searchEntity) {
-                return $http.post('../brand/search.do?page=' + page + '&size=' + size, searchEntity);
-            }
-        });
-
-
-        app.controller("brandController", function ($scope, brandService) {
-
-
-            //查询品牌列表
-            $scope.findAll = function () {
-                brandService.findAll().success(
-                    function (response) {
-                        $scope.list = response;
-                    }
-                )
-            };
-
-            //分页控件配置
-            $scope.paginationConf = {
-                currentPage: 1,
-                totalItems: 10,
-                itemsPerPage: 10,
-                perPageOptions: [10, 20, 30, 40, 50],
-                onChange: function () {
-                    $scope.reloadList();
-                }
-            };
-
-            $scope.reloadList = function () {
-                $scope.searchBrand($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
-            };
-
-
-            //分页
-            $scope.findPage = function (page, size) {
-                brandService.findPage(page, size).success(
-                    function (response) {
-                        $scope.list = response.rows;//显示当前页数据
-                        $scope.paginationConf.totalItems = response.total;//更新总记录数
-                    }
-                )
-            };
-
-
-            //增加品牌
-            //修改品牌
-            $scope.save = function () {
-                var object;
-                if ($scope.entity.id != null) {
-                    //更新
-                    object = brandService.update($scope.entity);
-                } else {
-                    //添加
-                    object = brandService.save($scope.entity);
-                }
-                object.success(
-                    function (response) {
-                        if (response.success) {
-                            $scope.reloadList();//成功刷新
-                        } else {
-                            alert(response.message);//失败提示
-                        }
-                    }
-                )
-            };
-
-            //展示修改的实体
-            $scope.findOne = function (id) {
-                brandService.findOne(id).success(
-                    function (response) {
-                        $scope.entity = response;
-                    }
-                )
-            }
-
-
-            //选中的id集合
-            $scope.selectIds = [];
-
-            $scope.updateSelection = function ($event, id) {
-                if ($event.target.checked) {
-                    //添加
-                    $scope.selectIds.push(id);
-                } else {
-                    var idx = $scope.selectIds.indexOf(id);
-                    //删除
-                    $scope.selectIds.splice(idx, 1);
-                }
-
-            };
-
-
-            //删除
-            $scope.deleteBrands = function () {
-                brandService.deleteBrands($scope.selectIds).success(
-                    function (response) {
-                        if (response.success) {
-                            $scope.reloadList();
-                        } else {
-                            alert(response.message)
-                        }
-                    }
-                )
-            };
-
-            $scope.searchEntity = {};
-
-            //分页 + 查询
-            $scope.searchBrand = function (page, size) {
-                brandService.search(page, size, $scope.searchEntity).success(
-                    function (response) {
-                        $scope.list = response.rows;//显示当前页数据
-                        $scope.paginationConf.totalItems = response.total;//更新总记录数
-                    }
-                )
-            };
-
-
-        })
-    </script>
 
 </head>
 
@@ -201,7 +59,7 @@
         <div class="box-tools pull-right">
             <div class="has-feedback">
                 品牌名称：<input ng-model="searchEntity.name">
-                品牌首字母 ：<input ng-model="searchEntity.firstChar">
+                品牌首字母：<input ng-model="searchEntity.firstChar">
                 <button class="btn btn-default" ng-click="reloadList()">查询</button>
             </div>
         </div>

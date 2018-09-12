@@ -1,0 +1,1 @@
+var app = angular.module("youmai", ['pagination']); //定义模块
