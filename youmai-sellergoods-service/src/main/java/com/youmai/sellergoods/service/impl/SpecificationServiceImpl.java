@@ -7,6 +7,7 @@ import com.youmai.mapper.TbSpecificationMapper;
 import com.youmai.mapper.TbSpecificationOptionMapper;
 import com.youmai.pojo.TbSpecification;
 import com.youmai.pojo.TbSpecificationOption;
+import com.youmai.pojo.TbSpecificationOptionExample;
 import com.youmai.pojogroup.Specification;
 import com.youmai.sellergoods.service.SpecificationService;
 import entity.PageResult;
@@ -33,11 +34,11 @@ public class SpecificationServiceImpl implements SpecificationService {
 
     @Override
     public PageResult findAll(Integer page, Integer size) {
-        PageHelper.startPage(page,size);
+        PageHelper.startPage(page, size);
 
         Page<TbSpecification> pages = (Page<TbSpecification>) tbSpecificationMapper.selectByExample(null);
 
-        return new PageResult(pages.getTotal(),pages.getResult());
+        return new PageResult(pages.getTotal(), pages.getResult());
     }
 
     @Override
@@ -53,5 +54,45 @@ public class SpecificationServiceImpl implements SpecificationService {
         }
 
 
+    }
+
+    @Override
+    public Specification findOne(Long id) {
+        //查询规格
+        TbSpecification tbSpecification = tbSpecificationMapper.selectByPrimaryKey(id);
+
+        //查询规格列表
+        TbSpecificationOptionExample example = new TbSpecificationOptionExample();
+        TbSpecificationOptionExample.Criteria criteria = example.createCriteria();
+        //根据id查询
+        criteria.andSpecIdEqualTo(id);
+        List<TbSpecificationOption> tbSpecificationOptions = tbSpecificationOptionMapper.selectByExample(example);
+
+        //添加进specification
+        Specification specification = new Specification();
+        specification.setSpecification(tbSpecification);
+        specification.setSpecificationOptionList(tbSpecificationOptions);
+
+        return specification;
+    }
+
+    @Override
+    public void update(Specification specification) {
+        //添加规格
+        tbSpecificationMapper.updateByPrimaryKey(specification.getSpecification());
+
+        TbSpecificationOptionExample example = new TbSpecificationOptionExample();
+        TbSpecificationOptionExample.Criteria criteria = example.createCriteria();
+        criteria.andSpecIdEqualTo(specification.getSpecification().getId());
+
+        //根据id删除 然后在增加
+        tbSpecificationOptionMapper.deleteByExample(example);
+
+        //添加规格列表
+        List<TbSpecificationOption> tbSpecificationOptions = specification.getSpecificationOptionList();
+        for (TbSpecificationOption option : tbSpecificationOptions) {
+            option.setSpecId(specification.getSpecification().getId());
+            tbSpecificationOptionMapper.insert(option);
+        }
     }
 }

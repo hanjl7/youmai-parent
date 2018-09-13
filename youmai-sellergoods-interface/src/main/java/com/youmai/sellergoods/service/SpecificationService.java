@@ -18,4 +18,8 @@ public interface SpecificationService {
     PageResult findAll(Integer page,Integer size);
 
     void add(Specification specification);
+
+    Specification findOne(Long id);
+
+    void update(Specification specification);
 }

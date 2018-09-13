@@ -64,20 +64,29 @@
 
             //增加
             $scope.save = function () {
-                /*var object;
-                if ($scope.entity.id != null){
-                    object = $http.post('../specification/add.do',$scope.entity)
+                var object;
+                if ($scope.entity.specification.id != null){
+                    //有id说明修改
+                    object = $http.post('../specification/update.do',$scope.entity)
                 }else {
-                    object = $http.get('../specification/update.do',$scope.entity)
-                }*/
+                    object = $http.post('../specification/add.do',$scope.entity)
+                }
 
-                $http.post('../specification/add.do',$scope.entity).success(function (response) {
+                object.success(function (response) {
                     if (response.success){
                         $scope.reloadList();
                     }else {
                         alert(response.message);
                     }
                 })
+            }
+
+            $scope.findOne =function (id) {
+                $http.get('../specification/findOne.do?id='+id).success(
+                    function (response) {
+                        $scope.entity = response;
+                    }
+                )
             }
 
         })
@@ -134,7 +143,7 @@
                 <td>{{entity.id}}</td>
                 <td>{{entity.specName}}</td>
                 <td class="text-center">
-                    <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改
+                    <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="findOne(entity.id)">修改
                     </button>
                 </td>
             </tr>
