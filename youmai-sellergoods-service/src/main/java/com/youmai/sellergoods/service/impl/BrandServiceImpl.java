@@ -1,4 +1,4 @@
-package com.yougou.sellergoods.service.impl;
+package com.youmai.sellergoods.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;

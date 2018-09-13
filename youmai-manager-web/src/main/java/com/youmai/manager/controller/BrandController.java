@@ -1,4 +1,4 @@
-package com.youpin.manager.controller;
+package com.youmai.manager.controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;

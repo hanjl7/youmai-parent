@@ -24,8 +24,8 @@
 	</mvc:annotation-driven>
 
 	<!-- 引用dubbo 服务 -->
-	<dubbo:application name="youpin-manager-web" />
+	<dubbo:application name="youmai-manager-web" />
 	<dubbo:registry address="zookeeper://192.168.25.25:2181"/>
-	<dubbo:annotation package="com.youpin.manager.controller" />
+	<dubbo:annotation package="com.youmai.manager.controller" />
 
 </beans>
