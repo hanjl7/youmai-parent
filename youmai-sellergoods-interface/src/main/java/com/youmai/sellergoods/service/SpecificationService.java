@@ -22,4 +22,6 @@ public interface SpecificationService {
     Specification findOne(Long id);
 
     void update(Specification specification);
+
+    void delete(Long[] ids);
 }
