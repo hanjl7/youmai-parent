@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -121,5 +122,16 @@ public class BrandServiceImpl implements BrandService {
         Page<TbBrand> page = (Page<TbBrand>) brandMapper.selectByExample(example);
 
         return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    /**
+     * @return java.util.List<java.util.Map>
+     * @Description 返回下拉列表数据
+     * @Date 21:13 2018/9/13
+     * @Param []
+     **/
+    @Override
+    public List<Map> selectOptionList() {
+        return brandMapper.selectOptionList();
     }
 }

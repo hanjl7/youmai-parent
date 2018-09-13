@@ -11,9 +11,8 @@ app.controller("baseController",function ($scope) {
         }
     };
 
-    //刷新列表
-    $scope.reloadList = function () {
-        $scope.searchBrand($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
+    $scope.reloadList = function(){
+        $scope.search($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
     };
 
     //选中的id集合
@@ -31,4 +30,6 @@ app.controller("baseController",function ($scope) {
         }
 
     };
+
+
 });

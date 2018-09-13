@@ -4,6 +4,8 @@ package com.youmai.sellergoods.service;
 import com.youmai.pojogroup.Specification;
 import entity.PageResult;
 
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -24,4 +26,6 @@ public interface SpecificationService {
     void update(Specification specification);
 
     void delete(Long[] ids);
+
+    List<Map> selectOptionList();
 }

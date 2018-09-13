@@ -64,7 +64,7 @@ app.controller("specificationController", function ($scope, $controller,specific
     $scope.searchEntity = {};
 
     //分页 + 查询
-    $scope.searchBrand = function (page, size) {
+    $scope.search = function (page, size) {
         specificationService.findAll(page, size).success(
             function (response) {
                 $scope.list = response.rows;//显示当前页数据

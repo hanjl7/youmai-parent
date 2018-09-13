@@ -4,6 +4,7 @@ import com.youmai.pojo.TbBrand;
 import entity.PageResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 品牌接口
@@ -30,4 +31,6 @@ public interface BrandService {
     public void update(TbBrand tbBrand);
 
     void delete(Long[] ids);
+
+    List<Map> selectOptionList();
 }

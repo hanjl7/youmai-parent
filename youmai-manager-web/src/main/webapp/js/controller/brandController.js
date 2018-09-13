@@ -76,7 +76,7 @@ app.controller("brandController", function ($scope,$controller, brandService) {
     $scope.searchEntity = {};
 
     //分页 + 查询
-    $scope.searchBrand = function (page, size) {
+    $scope.search = function (page, size) {
         brandService.search(page, size, $scope.searchEntity).success(
             function (response) {
                 $scope.list = response.rows;//显示当前页数据
@@ -84,6 +84,8 @@ app.controller("brandController", function ($scope,$controller, brandService) {
             }
         )
     };
+
+
 
 
 });
