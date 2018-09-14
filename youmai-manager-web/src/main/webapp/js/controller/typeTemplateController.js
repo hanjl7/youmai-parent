@@ -19,18 +19,18 @@ app.controller('typeTemplateController', function ($scope, $controller, typeTemp
     $scope.findSpecList = function () {
         specificationService.selectOptionList().success(
             function (response) {
-                $scope.specList = {data:response}
+                $scope.specList = {data: response}
             }
         )
     }
 
     //增加行
-    $scope.addTableRow =function(){
+    $scope.addTableRow = function () {
         $scope.entity.customAttributeItems.push({});
     }
 
-    $scope.deleTableRow =function(index){
-        $scope.entity.customAttributeItems.splice(index,1)
+    $scope.deleTableRow = function (index) {
+        $scope.entity.customAttributeItems.splice(index, 1)
     }
 
 
@@ -58,6 +58,9 @@ app.controller('typeTemplateController', function ($scope, $controller, typeTemp
         typeTemplateService.findOne(id).success(
             function (response) {
                 $scope.entity = response;
+                $scope.entity.brandIds = JSON.parse($scope.entity.brandIds);//转换品牌列表
+                $scope.entity.specIds = JSON.parse($scope.entity.specIds);//转换规格列表
+                $scope.entity.customAttributeItems = JSON.parse($scope.entity.customAttributeItems);//转换扩展属性
             }
         );
     }
