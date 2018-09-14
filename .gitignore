@@ -37,6 +37,6 @@ youmai-sellergoods-interface/src/test/
 youmai-sellergoods-interface/target/
 youmai-sellergoods-service/target/
 youmai-shop-web/target/
-
+youmai-manager-web/target
 *.properties
  # 忽略所有 .properties 结尾的文件
