@@ -5,10 +5,35 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
+    <!-- 以下页面不被拦截 -->
+    <http pattern="/login.html" security="none"></http>
+    <http pattern="/css/**" security="none"></http>
+    <http pattern="/img/**" security="none"></http>
+    <http pattern="/js/**" security="none"></http>
+    <http pattern="/plugins/**" security="none"></http>
 
-    <http pattern="/login.html" security="none"/>
-    <http pattern="/css/**" security="none"/>
-    <http pattern="/img/**" security="none"/>
-    <http pattern="/js/**" security="none"/>
-    <http pattern="/plugins/**" security="none"/>
+
+    <http use-expressions="false">
+        <intercept-url pattern="/**" access="ROLE_ADMIN"/>
+        <form-login login-page="/login.html" default-target-url="/admin/index.html"
+                    authentication-failure-url="/login.html" always-use-default-target="true"/>
+        <!--关闭跨站请求伪造-->
+        <csrf disabled="true"/>
+        <headers>
+            <!--设置框架页的策略为SAMEORIGIN-->
+            <frame-options policy="SAMEORIGIN"/>
+        </headers>
+        <!--退出登录-->
+        <logout/>
+    </http>
+
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="hancock" password="123456" authorities="ROLE_ADMIN"/>
+                <user name="admin" password="123456" authorities="ROLE_USER"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
 </beans:beans>
