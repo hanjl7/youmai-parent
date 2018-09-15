@@ -36,6 +36,7 @@
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 
+    <!--身份验证-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:spring/spring-security.xml</param-value>

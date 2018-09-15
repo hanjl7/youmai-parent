@@ -11,6 +11,7 @@ import com.youmai.pojo.TbSellerExample.Criteria;
 import com.youmai.sellergoods.service.SellerService;
 
 import entity.PageResult;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * 服务实现层
@@ -46,7 +47,10 @@ public class SellerServiceImpl implements SellerService {
 	 */
 	@Override
 	public void add(TbSeller seller) {
-		sellerMapper.insert(seller);		
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String password = bCryptPasswordEncoder.encode(seller.getPassword());
+        seller.setPassword(password);
+        sellerMapper.insert(seller);
 	}
 
 	

@@ -33,5 +33,4 @@ app.service('sellerService',function($http){
 		return $http.post('../seller/search.do?page='+page+"&rows="+rows, searchEntity);
 	}
 
-
 });
