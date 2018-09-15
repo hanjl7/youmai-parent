@@ -23,6 +23,7 @@
     <!-- 分页组件结束 -->
 
     <script type="text/javascript" src="../js/base_pagination.js"></script>
+
     <script type="text/javascript" src="../js/service/sellerService.js"></script>
 
     <script type="text/javascript" src="../js/controller/baseController.js"></script>
@@ -213,9 +214,15 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" data-dismiss="modal" aria-hidden="true">审核通过</button>
-                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">审核未通过</button>
-                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭商家</button>
+                    <button class="btn btn-success" data-dismiss="modal" aria-hidden="true"
+                            ng-click="updateStatus(entity.sellerId,'1')">审核通过
+                    </button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"
+                            ng-click="updateStatus(entity.sellerId,'2')">审核未通过
+                    </button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"
+                            ng-click="updateStatus(entity.sellerId,'3')">关闭商家
+                    </button>
                     <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
                 </div>
             </div>
