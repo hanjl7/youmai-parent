@@ -14,10 +14,24 @@
     <link rel="stylesheet" href="../css/style.css">
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-    
+
+	<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+	<!-- 分页组件开始 -->
+	<script src="../plugins/angularjs/pagination.js"></script>
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+	<!-- 分页组件结束 -->
+
+	<script type="text/javascript" src="../js/base_pagination.js"></script>
+	<script type="text/javascript" src="../js/service/sellerService.js"></script>
+
+	<script type="text/javascript" src="../js/controller/baseController.js"></script>
+
+	<script type="text/javascript" src="../js/controller/sellerController.js"></script>
+
 </head>
 
-<body class="hold-transition skin-red sidebar-mini"  >
+<body class="hold-transition skin-red sidebar-mini"  ng-app="youmai"
+	  ng-controller="sellerController">
   <!-- .box-body -->
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -63,13 +77,13 @@
 			                          </tr>
 			                      </thead>
 			                      <tbody>
-			                          <tr>
-			                              <td><input  type="checkbox"></td>			                              
-				                          <td>1</td>
-									      <td>梦琪琪商贸有限公司</td>
-									      <td>梦琪琪</td>
-									      <td>李梦琪</td>
-									      <td>13402312232</td>
+			                          <tr ng-repeat="entity in list">
+			                              <td><input  type="checkbox"></td>
+										  <td>{{entity.sellerId}}</td>
+										  <td>{{entity.name}}</td>
+										  <td>{{entity.nickName}}</td>
+										  <td>{{entity.linkmanName}}</td>
+										  <td>{{entity.telephone}}</td>
 		                                  <td>
 			                                  <span>未审核</span>	
 										     
@@ -78,27 +92,12 @@
 		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal" >详情</button>                                           
 		                                  </td>
 			                          </tr>
-									  <tr>
-			                              <td><input  type="checkbox"></td>			                              
-				                          <td>2</td>
-									      <td>黑瞎子苹果专卖店</td>
-									      <td>黑瞎子</td>
-									      <td>孙大鹏</td>
-									      <td>13622244111</td>
-		                                  <td>
-			                                  
-										      <span>审核通过</span>	
-										      
-		                                  </td>
-		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal" >详情</button>                                           
-		                                  </td>
-			                          </tr>
+
 			                      </tbody>
 			                  </table>
-			                  <!--数据列表/-->                        
-							  
-							 
+			                  <!--数据列表/-->
+							<!--分页组件-->
+							<tm-pagination conf="paginationConf"></tm-pagination>
                         </div>
                         <!-- 数据表格 /-->
                         
