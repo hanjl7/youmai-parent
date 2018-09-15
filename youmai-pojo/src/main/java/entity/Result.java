@@ -3,38 +3,40 @@ package entity;
 import java.io.Serializable;
 
 /**
- * @ClassName: Result
- * @Description: 返回结果
- * @Author: 泊松
- * @Date: 2018/9/10 22:12
- * @Version: 1.0
+ * 用于向页面传递信息的类
+ * @author jt
+ *
  */
-public class Result implements Serializable {
+public class Result implements Serializable{
 
-    //是否成功
     private boolean success;
-    //返回的信息
+    private boolean flag;
     private String message;
 
-
     public Result(boolean success, String message) {
-        this.success = success;
+        super();
+        this.success=success;
+        this.flag = success;
+        this.message = message;
+    }
+    public boolean isFlag() {
+        return flag;
+    }
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+    public String getMessage() {
+        return message;
+    }
+    public void setMessage(String message) {
         this.message = message;
     }
 
     public boolean isSuccess() {
         return success;
     }
-
     public void setSuccess(boolean success) {
         this.success = success;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

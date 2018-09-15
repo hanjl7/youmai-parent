@@ -1,4 +1,4 @@
-package cnm.youmai.shop.controller;
+package com.youmai.shop.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.youmai.pojo.TbGoods;
