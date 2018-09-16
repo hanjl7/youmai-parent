@@ -101,7 +101,7 @@ public class ItemCatController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @param
 	 * @param page
 	 * @param rows
 	 * @return
@@ -109,6 +109,16 @@ public class ItemCatController {
 	@RequestMapping("/search")
 	public PageResult search(@RequestBody TbItemCat itemCat, int page, int rows  ){
 		return itemCatService.findPage(itemCat, page, rows);		
+	}
+	/**
+	 * @Description 返回上级id查询列表
+	 * @Date 22:46 2018/9/15
+	 * @Param [parentId]
+	 * @return java.util.List<com.youmai.pojo.TbItemCat>
+	 **/
+	@RequestMapping("/findByParentId")
+	public List<TbItemCat> findByParentId(Long parentId){
+		return itemCatService.findByParentId(parentId);
 	}
 	
 }

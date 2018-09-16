@@ -57,5 +57,13 @@ public interface ItemCatService {
 	 * @return
 	 */
 	public PageResult findPage(TbItemCat itemCat, int pageNum, int pageSize);
-	
+
+
+	/**
+	 * @Description 返回上级Id返回列表
+	 * @Date 22:41 2018/9/15
+	 * @Param [parentId]
+	 * @return java.util.List<com.youmai.pojo.TbItemCat>
+	 **/
+	public List<TbItemCat> findByParentId(Long parentId);
 }
