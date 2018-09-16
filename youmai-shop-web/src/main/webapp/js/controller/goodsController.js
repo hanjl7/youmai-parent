@@ -10,8 +10,7 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 				$scope.list=response;
 			}			
 		);
-	}    
-	
+	}
 	//分页
 	$scope.findPage=function(page,rows){			
 		goodsService.findPage(page,rows).success(
@@ -47,6 +46,8 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 
     //保存
     $scope.add=function(){
+		$scope.entity.goodsDesc.introduction=editor.html();
+
         goodsService.add( $scope.entity  ).success(
             function(response){
                 if(response.success){
@@ -54,6 +55,8 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 					alert("添加成功")
 					//添加成功后，清空
 					$scope.entity={};
+					//清空富文本编辑器
+					editor.html("");
                 }else{
                     alert(response.message);
                 }
