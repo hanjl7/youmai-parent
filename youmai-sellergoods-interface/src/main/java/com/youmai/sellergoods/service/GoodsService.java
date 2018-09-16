@@ -2,6 +2,7 @@ package com.youmai.sellergoods.service;
 import java.util.List;
 import com.youmai.pojo.TbGoods;
 
+import com.youmai.pojogroup.Goods;
 import entity.PageResult;
 /**
  * 服务层接口
@@ -27,7 +28,7 @@ public interface GoodsService {
 	/**
 	 * 增加
 	*/
-	public void add(TbGoods goods);
+	public void add(Goods goods);
 	
 	
 	/**

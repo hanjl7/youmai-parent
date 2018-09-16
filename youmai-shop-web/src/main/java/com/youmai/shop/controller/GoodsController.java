@@ -2,9 +2,11 @@ package com.youmai.shop.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.youmai.pojo.TbGoods;
+import com.youmai.pojogroup.Goods;
 import com.youmai.sellergoods.service.GoodsService;
 import entity.PageResult;
 import entity.Result;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,7 +50,11 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/add")
-	public Result add(@RequestBody TbGoods goods){
+	public Result add(@RequestBody Goods goods){
+		//获取登录名
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		//设置商家id
+		goods.getGoods().setSellerId(name);
 		try {
 			goodsService.add(goods);
 			return new Result(true, "增加成功");
@@ -102,7 +108,7 @@ public class GoodsController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @param
 	 * @param page
 	 * @param rows
 	 * @return

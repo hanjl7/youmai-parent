@@ -1,5 +1,8 @@
 package com.youmai.sellergoods.service.impl;
 import java.util.List;
+
+import com.youmai.mapper.TbGoodsDescMapper;
+import com.youmai.pojogroup.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
@@ -22,7 +25,9 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Autowired
 	private TbGoodsMapper goodsMapper;
-	
+
+	@Autowired
+	private TbGoodsDescMapper goodsDescMapper;
 	/**
 	 * 查询全部
 	 */
@@ -45,8 +50,14 @@ public class GoodsServiceImpl implements GoodsService {
 	 * 增加
 	 */
 	@Override
-	public void add(TbGoods goods) {
-		goodsMapper.insert(goods);		
+	public void add(Goods goods) {
+		//设置未申请状态
+		goods.getGoods().setAuditStatus("0");
+		goodsMapper.insert(goods.getGoods());
+		//设置id
+		goods.getGoodsDesc().setGoodsId(goods.getGoods().getId());
+		//插入商品扩展属性
+		goodsDescMapper.insert(goods.getGoodsDesc());
 	}
 
 	
