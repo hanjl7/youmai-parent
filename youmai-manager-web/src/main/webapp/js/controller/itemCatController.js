@@ -38,7 +38,7 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
             serviceObject = itemCatService.update($scope.entity); //修改
         } else {
             //赋予上级的id
-            $scope.entity.parentId=$scope.parentId;
+            $scope.entity.parentId = $scope.parentId;
             serviceObject = itemCatService.add($scope.entity);//增加
         }
         serviceObject.success(
@@ -56,15 +56,36 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
 
     //批量删除
     $scope.dele = function () {
-        //获取选中的复选框
-        itemCatService.dele($scope.selectIds).success(
-            function (response) {
-                if (response.success) {
-                    $scope.findByParentId($scope.parentId);//刷新列表
-                    $scope.selectIds = [];
+        if ($scope.grade <= 2) {
+            //获取选中的复选框
+            itemCatService.dele($scope.selectIds).success(
+                function (response) {
+                    if (confirm("你确定删除吗？下面可能还有商品分类")){
+                        if (response.success) {
+                            $scope.findByParentId($scope.parentId);//刷新列表
+                            $scope.selectIds = [];
+                        }
+                    }
+
                 }
-            }
-        );
+            );
+        }
+
+        if ($scope.grade == 3) {
+            //获取选中的复选框
+            itemCatService.dele($scope.selectIds).success(
+                function (response) {
+                    if (confirm("你确定删除吗？")){
+                        if (response.success) {
+                            $scope.findByParentId($scope.parentId);//刷新列表
+                            $scope.selectIds = [];
+                        }
+                    }
+
+                }
+            );
+        }
+
     }
 
     $scope.searchEntity = {};//定义搜索对象
@@ -93,24 +114,24 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
     }
 
     //面包屑导航
-    $scope.grade=1;
+    $scope.grade = 1;
     //设置级别
-    $scope.setGrade=function (value) {
-        $scope.grade=value;
+    $scope.setGrade = function (value) {
+        $scope.grade = value;
     }
     //读取列表
-    $scope.selectList=function (p_entity) {
-        if ($scope.grade==1){
+    $scope.selectList = function (p_entity) {
+        if ($scope.grade == 1) {
             //一级时
-            $scope.entity_1=null;
-            $scope.entity_2=null;
+            $scope.entity_1 = null;
+            $scope.entity_2 = null;
         }
-        if ($scope.grade==2){
-            $scope.entity_1=p_entity;
-            $scope.entity_2=null;
+        if ($scope.grade == 2) {
+            $scope.entity_1 = p_entity;
+            $scope.entity_2 = null;
         }
-        if ($scope.grade==3){
-            $scope.entity_2=p_entity;
+        if ($scope.grade == 3) {
+            $scope.entity_2 = p_entity;
         }
 
         //查询下级列表
@@ -118,5 +139,4 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
     }
 
 
-
-});	
+});
