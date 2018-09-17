@@ -1,5 +1,7 @@
 package com.youmai.sellergoods.service;
 import java.util.List;
+import java.util.Map;
+
 import com.youmai.pojo.TbTypeTemplate;
 
 import entity.PageResult;
@@ -57,5 +59,13 @@ public interface TypeTemplateService {
 	 * @return
 	 */
 	public PageResult findPage(TbTypeTemplate typeTemplate, int pageNum, int pageSize);
+
+	/**
+	 * @Description 返回规格列表
+	 * @Date 19:13 2018/9/17
+	 * @Param [id]
+	 * @return java.util.List<java.util.Map>
+	 **/
+	public List<Map> findSpecList(Long id);
 	
 }

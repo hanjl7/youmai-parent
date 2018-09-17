@@ -1,4 +1,4 @@
-app.controller("baseController",function ($scope) {
+app.controller("baseController", function ($scope) {
 
     //分页控件配置
     $scope.paginationConf = {
@@ -11,8 +11,8 @@ app.controller("baseController",function ($scope) {
         }
     };
 
-    $scope.reloadList = function(){
-        $scope.search($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
+    $scope.reloadList = function () {
+        $scope.search($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
     };
 
     //选中的id集合
@@ -32,16 +32,25 @@ app.controller("baseController",function ($scope) {
     };
 
     //提取json字符串数据中某个属性，返回拼接字符串 逗号分隔
-    $scope.jsonToString=function (jsonString,Key) {
-        var json=JSON.parse(jsonString); //将json字符串转换为json对象
+    $scope.jsonToString = function (jsonString, Key) {
+        var json = JSON.parse(jsonString); //将json字符串转换为json对象
         var value = "";
-        for (var i = 0; i <json.length ; i++) {
-            if (i >0){
+        for (var i = 0; i < json.length; i++) {
+            if (i > 0) {
                 value += ",";
             }
             value += json[i][Key];
         }
         return value;
+    }
+    //从集合中按照key查找对象
+    $scope.searchObjectByKey = function (list, key, keyValue) {
+        for (var i = 0; i < list.length; i++) {
+            if (list[i][key] == keyValue) {
+                return list[i];
+            }
+        }
+        return null;
     }
 
 });
