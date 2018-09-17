@@ -1,5 +1,5 @@
 //控制层
-app.controller('goodsController', function ($scope, $controller, goodsService, uploadService) {
+app.controller('goodsController', function ($scope, $controller, goodsService, uploadService,itemCatService) {
 
     $controller('baseController', {$scope: $scope});//继承
 
@@ -119,4 +119,38 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
     $scope.remove_image_entity=function (index) {
         $scope.entity.goodsDesc.itemImages.splice(index,1);
     }
+    //查询一级分类
+    $scope.selectItemCat1List=function () {
+        itemCatService.findByParentId(0).success(
+            function (response) {
+                $scope.itemCat1List=response;
+            }
+        )
+    }
+    //查询二级分类
+    $scope.$watch("entity.goods.category1Id",function (newValue,oldValue) {
+        //根据一级分类的id查询二级分类 $watch方法用于监控某个变量的值，当被监控的值发生变化，就自动执行相应的函数
+        itemCatService.findByParentId(newValue).success(
+            function (response) {
+                $scope.itemCat2List=response;
+            }
+        )
+    })
+    //查询三级分类
+    $scope.$watch("entity.goods.category2Id",function (newValue,oldValue) {
+        itemCatService.findByParentId(newValue).success(
+            function (response) {
+                $scope.itemCat3List=response;
+            }
+        )
+    })
+    //查询模板id
+    $scope.$watch("entity.goods.category3Id",function (newValue,oldValue) {
+        itemCatService.findOne(newValue).success(
+            function (response) {
+                //跟新模板id
+                $scope.entity.goods.typeTemplateId=response.typeId;
+            }
+        )
+    })
 });
