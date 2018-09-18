@@ -109,7 +109,7 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
     }
 
     //定义页面实体结构🎈
-    $scope.entity = {goods: {}, goodsDesc: {itemImages: [],specificationItems:[]}};
+    $scope.entity = {goods: {}, goodsDesc: {itemImages: [], specificationItems: []}};
 
 
     //把当前上传的图片添加到图片列表
@@ -176,13 +176,24 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
     })
 
     //获取规格添加
-    $scope.updateSpecAttribute=function (name,value) {
-        var object =$scope.searchObjectByKey($scope.entity.goodsDesc.customAttributeItems,'attributeName',name);
-        if (object != null){
+    $scope.updateSpecAttribute = function ($event, name, value) {
+        var object = $scope.searchObjectByKey($scope.entity.goodsDesc.specificationItems, 'attributeName', name);
+        if (object != null) {
+            if ($event.target.checked) {
                 object.attributeValue.push(value);
-        }else {
-            $scope.entity.goodsDesc.specificationItems.push({"attributeName":name,"attributeValue":[value]})
+            } else {
+                //取消勾选
+                object.attributeValue.splice(object.attributeValue.indexOf(value), 1);//移除选项
+                //如果选项都取消，此条记录移除
+                if (object.attributeValue.length == 0) {
+                    $scope.entity.goodsDesc.specificationItems.splice(
+                        $scope.entity.goodsDesc.specificationItems.indexOf(object), 1);
+                }
+            }
+        } else {
+            $scope.entity.goodsDesc.specificationItems.push({"attributeName": name, "attributeValue": [value]})
         }
     }
+
 
 });

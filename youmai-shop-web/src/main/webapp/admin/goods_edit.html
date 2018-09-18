@@ -202,11 +202,10 @@
                     <div class="row data-type">
                         <div class="col-md-2 title">是否启用规格</div>
                         <div class="col-md-10 data">
-                            <input type="checkbox">
+                            <input type="checkbox" >
                         </div>
                     </div>
                     <p>
-
                     <div>
 
                         <div class="row data-type" ng-repeat="pojo in specList">
@@ -216,14 +215,13 @@
                                 <div class="col-md-10 data">
                                     <span ng-repeat="option in pojo.options">
                                         <input type="checkbox"
-                                               ng-click="updateSpecAttribute(pojo.text,option.optionName)">{{option.optionName}}
+                                               ng-click="updateSpecAttribute($event,pojo.text,option.optionName)">{{option.optionName}}
                                     </span>
                                 </div>
                             </div>
-
                         </div>
-                    {{entity}}
-                        <div class="row data-type">
+
+                    <div class="row data-type">
                             <table class="table table-bordered table-striped table-hover dataTable">
                                 <thead>
                                 <tr>
