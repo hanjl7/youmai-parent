@@ -36,7 +36,7 @@
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" ng-app="youmai" ng-controller="goodsController"
-      ng-init="selectItemCat1List()">
+      ng-init="selectItemCat1List();findOne()">
 
 <!-- 正文区域 -->
 <section class="content">
@@ -207,7 +207,6 @@
                         </div>
                     </div>
                     <p>
-                        {{entity.goods.isEnableSpec}}
 
                     <div ng-if="entity.goods.isEnableSpec=='1'">
 

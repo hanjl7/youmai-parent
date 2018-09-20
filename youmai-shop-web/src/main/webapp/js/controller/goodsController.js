@@ -1,5 +1,5 @@
 //控制层
-app.controller('goodsController', function ($scope, $controller, goodsService, uploadService, itemCatService, typeTemplateService) {
+app.controller('goodsController', function ($scope, $controller, $location, goodsService, uploadService, itemCatService, typeTemplateService) {
 
     $controller('baseController', {$scope: $scope});//继承
 
@@ -23,9 +23,18 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
 
     //查询实体
     $scope.findOne = function (id) {
+        //获取参数
+        var id = $location.search()['id'];
+
+        if (id == null) {
+            return;
+        }
+
         goodsService.findOne(id).success(
             function (response) {
                 $scope.entity = response;
+                //向富文本添加商品介绍
+                editor.html($scope.entity.goodsDesc.introduction);
             }
         );
     }
@@ -218,16 +227,16 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
         return newList;
     }
 
-    $scope.status=['未审核','已审核','审核未通过','关闭'];
+    $scope.status = ['未审核', '已审核', '审核未通过', '关闭'];
 
     //商品分类列表
-    $scope.itemCatList=[];
-    
-    $scope.findItemCatList=function () {
+    $scope.itemCatList = [];
+
+    $scope.findItemCatList = function () {
         itemCatService.findAll().success(
             function (response) {
-                for (var i = 0; i <response.length ; i++) {
-                    $scope.itemCatList[response[i].id]=response[i].name;
+                for (var i = 0; i < response.length; i++) {
+                    $scope.itemCatList[response[i].id] = response[i].name;
                 }
             }
         )
