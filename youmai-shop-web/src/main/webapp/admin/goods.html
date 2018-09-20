@@ -16,11 +16,27 @@
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
 
+    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+    <!-- 分页组件开始 -->
+    <script src="../plugins/angularjs/pagination.js"></script>
+    <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+    <!-- 分页组件结束 -->
+
+    <script type="text/javascript" src="../js/base_pagination.js"></script>
+    <script type="text/javascript" src="../js/service/goodsService.js"></script>
+    <script type="text/javascript" src="../js/service/itemCatService.js"></script>
+    <script type="text/javascript" src="../js/service/uploadService.js"></script>
+    <script type="text/javascript" src="../js/service/typeTemplateService.js"></script>
+
+    <script type="text/javascript" src="../js/controller/baseController.js"></script>
+
+    <script type="text/javascript" src="../js/controller/goodsController.js"></script>
 
 
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" >
+<body class="hold-transition skin-red sidebar-mini" ng-app="youmai" ng-controller="goodsController"
+      ng-init="findItemCatList()">
 <!-- .box-body -->
 
 <div class="box-header with-border">
@@ -81,27 +97,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr ng-repeat="entity in list">
                 <td><input type="checkbox"></td>
-                <td>1</td>
-                <td>小米6S手机</td>
-                <td>1090</td>
-                <td>数码</td>
-                <td>手机</td>
-                <td>国产手机</td>
+                <td>{{entity.id}}</td>
+                <td>{{entity.goodsName}}</td>
+                <td>{{entity.price}}</td>
+                <td>{{itemCatList[entity.category1Id]}}</td>
+                <td>{{itemCatList[entity.category2Id]}}</td>
+                <td>{{itemCatList[entity.category3Id]}}</td>
                 <td>
-		                                  	<span>
-		                                  		未申请
-		                                  	</span>
-                    <span>
-		                                  		申请中
-		                                  	</span>
-                    <span>
-		                                  		审核通过
-		                                  	</span>
-                    <span>
-		                                  		已驳回
-		                                  	</span>
+                    {{status[entity.auditStatus]}}
                 </td>
                 <td class="text-center">
                     <button type="button" class="btn bg-olive btn-xs">修改</button>
@@ -110,7 +115,8 @@
             </tbody>
         </table>
         <!--数据列表/-->
-
+        <!--分页组件-->
+        <tm-pagination conf="paginationConf"></tm-pagination>
 
     </div>
     <!-- 数据表格 /-->
