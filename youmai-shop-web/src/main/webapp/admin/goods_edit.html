@@ -217,12 +217,13 @@
                                 <div class="col-md-10 data">
                                     <span ng-repeat="option in pojo.options">
                                         <input type="checkbox"
-                                               ng-click="updateSpecAttribute($event,pojo.text,option.optionName);createItemList()">{{option.optionName}}
+                                               ng-click="updateSpecAttribute($event,pojo.text,option.optionName);createItemList()"
+                                               ng-checked="checkAttributeValue(pojo.text,option.optionName)"
+                                        >{{option.optionName}}
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        {{entity.itemList}}
                         <div class="row data-type">
                             <table class="table table-bordered table-striped table-hover dataTable">
                                 <thead>
@@ -273,7 +274,7 @@
 
     </div>
     <div class="btn-toolbar list-toolbar">
-        <button class="btn btn-primary" ng-click="add()"><i class="fa fa-save"></i>保存</button>
+        <button class="btn btn-primary" ng-click="save()"><i class="fa fa-save"></i>保存</button>
         <button class="btn btn-default">返回列表</button>
     </div>
 

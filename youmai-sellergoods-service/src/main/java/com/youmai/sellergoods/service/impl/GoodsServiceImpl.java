@@ -74,53 +74,13 @@ public class GoodsServiceImpl implements GoodsService {
         //插入商品扩展属性
         goodsDescMapper.insert(goods.getGoodsDesc());
 
-        //是否启用规格
-        if ("1".equals(goods.getGoods().getIsEnableSpec())) {
+        //添加sku
+        saveItemList(goods);
 
-
-            for (TbItem item : goods.getItemList()) {
-                //标题
-                //SPU名称
-                String title = goods.getGoods().getGoodsName();
-                Map<String, Object> specMap = JSON.parseObject(item.getSpec());
-                for (String key : specMap.keySet()) {
-                    //规格选项名称
-                    title += "" + specMap.get(key);
-                }
-
-                item.setTitle(title);
-
-                setItemValues(item,goods);
-
-
-
-                itemMapper.insert(item);
-            }
-        }else {
-            //没有启用规格
-            TbItem item = new TbItem();
-            //标题
-            item.setTitle(goods.getGoods().getGoodsName());
-            //价格
-            item.setPrice(goods.getGoods().getPrice());
-            //库存
-            item.setNum(9999);
-            //状态
-            item.setStatus("1");
-            //是否默认
-            item.setIsDefault("1");
-
-            item.setSpec("{}");
-
-            setItemValues(item,goods);
-
-            itemMapper.insert(item);
-
-        }
     }
 
     //提取重复代码块
-    private void setItemValues(TbItem item,Goods goods){
+    private void setItemValues(TbItem item, Goods goods) {
 
         //商品分类
         item.setCategoryid(goods.getGoods().getCategory3Id());
@@ -154,12 +114,74 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
 
+    //插入SKU列表数据
+    private void saveItemList(Goods goods){
+        //是否启用规格
+        if ("1".equals(goods.getGoods().getIsEnableSpec())) {
+
+
+            for (TbItem item : goods.getItemList()) {
+                //标题
+                //SPU名称
+                String title = goods.getGoods().getGoodsName();
+                Map<String, Object> specMap = JSON.parseObject(item.getSpec());
+                for (String key : specMap.keySet()) {
+                    //规格选项名称
+                    title += "" + specMap.get(key);
+                }
+
+                item.setTitle(title);
+
+                setItemValues(item, goods);
+
+
+                itemMapper.insert(item);
+            }
+        } else {
+            //没有启用规格
+            TbItem item = new TbItem();
+            //标题
+            item.setTitle(goods.getGoods().getGoodsName());
+            //价格
+            item.setPrice(goods.getGoods().getPrice());
+            //库存
+            item.setNum(9999);
+            //状态
+            item.setStatus("1");
+            //是否默认
+            item.setIsDefault("1");
+
+            item.setSpec("{}");
+
+            setItemValues(item, goods);
+
+            itemMapper.insert(item);
+
+        }
+    }
+
     /**
      * 修改
      */
     @Override
-    public void update(TbGoods goods) {
-        goodsMapper.updateByPrimaryKey(goods);
+    public void update(Goods goods) {
+        //设置未申请状态，如果是经过修改的商品,需要重新设定
+        goods.getGoods().setAuditStatus("0");
+
+        //更新扩展表基本数据
+        goodsMapper.updateByPrimaryKey(goods.getGoods());
+        //更新扩展表数据
+        goodsDescMapper.updateByPrimaryKey(goods.getGoodsDesc());
+
+        //删除原有的SKU列表数据
+        TbItemExample example = new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdEqualTo(goods.getGoods().getId());
+        itemMapper.deleteByExample(example);
+
+        //插入新的SKU列表数据
+        saveItemList(goods);
+
     }
 
     /**
@@ -170,15 +192,22 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public Goods findOne(Long id) {
+
         Goods goods = new Goods();
         //添加查询的商品
         TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
         goods.setGoods(tbGoods);
         //添加商品详情
         TbGoodsDesc tbGoodsDesc = goodsDescMapper.selectByPrimaryKey(id);
+        //查询SKU商品列表
+        TbItemExample example = new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdEqualTo(id);
+        List<TbItem> tbItems = itemMapper.selectByExample(example);
+        goods.setItemList(tbItems);
         goods.setGoodsDesc(tbGoodsDesc);
 
-        return  goods;
+        return goods;
     }
 
     /**
