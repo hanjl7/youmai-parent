@@ -11,6 +11,7 @@ import com.youmai.pojo.TbItemExample.Criteria;
 import com.youmai.sellergoods.service.ItemService;
 
 import entity.PageResult;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 服务实现层
@@ -27,6 +28,7 @@ public class ItemServiceImpl implements ItemService {
 	 * 查询全部
 	 */
 	@Override
+    @Transactional
 	public List<TbItem> findAll() {
 		return itemMapper.selectByExample(null);
 	}
