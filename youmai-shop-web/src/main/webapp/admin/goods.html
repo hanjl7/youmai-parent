@@ -53,7 +53,7 @@
             <div class="form-group form-inline">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" title="新建"><i class="fa fa-file-o"></i> 新建</button>
-                    <button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
+                    <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o"></i> 删除</button>
                     <button type="button" class="btn btn-default" title="提交审核"><i class="fa fa-check"></i> 提交审核</button>
                     <button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i
                             class="fa fa-ban"></i> 屏蔽
@@ -65,7 +65,7 @@
             </div>
         </div>
         <div class="box-tools pull-right">
-            <div class="has-feedback" >
+            <div class="has-feedback">
                 状态：<select ng-model="searchEntity.auditStatus">
                 <option value="">全部</option>
                 <option value="0">未审核</option>
@@ -98,7 +98,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="entity in list">
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" ng-click="updateSelection($event,{{entity.id}})"></td>
                 <td>{{entity.id}}</td>
                 <td>{{entity.goodsName}}</td>
                 <td>{{entity.price}}</td>
@@ -109,7 +109,7 @@
                     {{status[entity.auditStatus]}}
                 </td>
                 <td class="text-center">
-                    <a  class="btn bg-olive btn-xs" href="goods_edit.html">修改</a>
+                    <a class="btn bg-olive btn-xs" href="goods_edit.html#?id={{entity.id}}">修改</a>
                 </td>
             </tr>
             </tbody>

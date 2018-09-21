@@ -43,7 +43,7 @@ app.controller('goodsController', function ($scope, $controller, $location, good
                 $scope.entity.goodsDesc.specificationItems = JSON.parse($scope.entity.goodsDesc.specificationItems)
                 //SPU列表转换对象
                 for (var i = 0; i < $scope.entity.itemList.length; i++) {
-                    $scope.entity.itemList[i].spec=JSON.parse($scope.entity.itemList[i].spec);
+                    $scope.entity.itemList[i].spec = JSON.parse($scope.entity.itemList[i].spec);
                 }
 
             }
@@ -55,20 +55,20 @@ app.controller('goodsController', function ($scope, $controller, $location, good
         $scope.entity.goodsDesc.introduction = editor.html();
 
         var serviceObject;
-        if ($scope.entity.goods.id != null){
-            serviceObject=goodsService.update($scope.entity);
-        }else {
-            serviceObject=goodsService.add($scope.entity);
+        if ($scope.entity.goods.id != null) {
+            serviceObject = goodsService.update($scope.entity);
+        } else {
+            serviceObject = goodsService.add($scope.entity);
         }
         serviceObject.success(
             function (response) {
                 if (response.success) {
-                    //重新查询
-                    alert("添加成功")
                     //添加成功后，清空
                     $scope.entity = {};
                     //清空富文本编辑器
                     editor.html("");
+                    //添加成功跳转到商品列表页
+                    location.href = "goods.html";
                 } else {
                     alert(response.message);
                 }

@@ -115,7 +115,7 @@ public class GoodsServiceImpl implements GoodsService {
 
 
     //插入SKU列表数据
-    private void saveItemList(Goods goods){
+    private void saveItemList(Goods goods) {
         //是否启用规格
         if ("1".equals(goods.getGoods().getIsEnableSpec())) {
 
@@ -216,7 +216,15 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void delete(Long[] ids) {
         for (Long id : ids) {
+            //删除商品表
             goodsMapper.deleteByPrimaryKey(id);
+            //删除商品信息表
+            goodsDescMapper.deleteByPrimaryKey(id);
+            //删除SKU列表
+            TbItemExample example = new TbItemExample();
+            TbItemExample.Criteria criteria = example.createCriteria();
+            criteria.andGoodsIdEqualTo(id);
+            itemMapper.deleteByExample(example);
         }
     }
 
