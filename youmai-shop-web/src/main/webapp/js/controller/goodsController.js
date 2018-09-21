@@ -284,4 +284,16 @@ app.controller('goodsController', function ($scope, $controller, $location, good
             }
         )
     }
+
+    $scope.updateMarketable =function (status) {
+        goodsService.updateMarketable($scope.selectIds,status).success(
+            function (response) {
+                if (response){
+                    $scope.reloadList();
+                } else {
+                    alert(response.message);
+                }
+            }
+        )
+    }
 });

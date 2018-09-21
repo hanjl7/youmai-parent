@@ -16,6 +16,7 @@ import com.youmai.pojo.TbGoodsExample.Criteria;
 import com.youmai.sellergoods.service.GoodsService;
 
 import entity.PageResult;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 服务实现层
@@ -23,6 +24,7 @@ import entity.PageResult;
  * @author Administrator
  */
 @Service
+@Transactional
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
@@ -216,7 +218,12 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void delete(Long[] ids) {
         for (Long id : ids) {
-            //删除商品表
+            //逻辑删除
+            TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+            tbGoods.setIsDelete("1");
+            goodsMapper.updateByPrimaryKey(tbGoods);
+            //真实删除
+            /*//删除商品表
             goodsMapper.deleteByPrimaryKey(id);
             //删除商品信息表
             goodsDescMapper.deleteByPrimaryKey(id);
@@ -224,7 +231,8 @@ public class GoodsServiceImpl implements GoodsService {
             TbItemExample example = new TbItemExample();
             TbItemExample.Criteria criteria = example.createCriteria();
             criteria.andGoodsIdEqualTo(id);
-            itemMapper.deleteByExample(example);
+            itemMapper.deleteByExample(example);*/
+
         }
     }
 
@@ -235,7 +243,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         TbGoodsExample example = new TbGoodsExample();
         Criteria criteria = example.createCriteria();
-
+        criteria.andIsDeleteIsNull();//非删除状态
         if (goods != null) {
             if (goods.getSellerId() != null && goods.getSellerId().length() > 0) {
                 //criteria.andSellerIdLike("%" + goods.getSellerId() + "%");
@@ -271,16 +279,31 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     /**
+     * @return void
      * @Description 批量修改状态
      * @Date 19:09 2018/9/21
      * @Param [ids, status]
-     * @return void
      **/
     @Override
     public void updateStatus(Long[] ids, String status) {
         for (Long id : ids) {
             TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
             tbGoods.setAuditStatus(status);
+            goodsMapper.updateByPrimaryKey(tbGoods);
+        }
+    }
+
+    /**
+     * @return void
+     * @Description 商家修改上下架
+     * @Date 21:39 2018/9/21
+     * @Param [ids, status]
+     **/
+    @Override
+    public void updateMarketable(Long[] ids, String status) {
+        for (Long id : ids) {
+            TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+            tbGoods.setIsMarketable(status);
             goodsMapper.updateByPrimaryKey(tbGoods);
         }
     }
