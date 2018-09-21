@@ -58,5 +58,12 @@ public interface GoodsService {
 	 * @return
 	 */
 	public PageResult findPage(TbGoods goods, int pageNum, int pageSize);
-	
+
+	/**
+	 * @Description 批量修改状态
+	 * @Date 19:07 2018/9/21
+	 * @Param  * @param null
+	 * @return
+	 **/
+	public void updateStatus(Long [] ids,String status);
 }
