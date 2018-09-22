@@ -18,6 +18,8 @@
         <module>youmai-sellergoods-service</module>
         <module>youmai-manager-web</module>
         <module>youmai-shop-web</module>
+        <module>youmai-content-service</module>
+        <module>youmai-content-interface</module>
     </modules>
 
     <properties>

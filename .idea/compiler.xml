@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="youmai-common" />
+        <module name="youmai-content-interface" />
+        <module name="youmai-content-service" />
         <module name="youmai-dao" />
         <module name="youmai-manager-web" />
         <module name="youmai-pojo" />
