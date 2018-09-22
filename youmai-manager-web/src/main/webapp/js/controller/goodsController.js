@@ -1,5 +1,5 @@
 //控制层
-app.controller('goodsController', function ($scope, $controller, $location, itemCatService, goodsService) {
+app.controller('goodsController', function ($scope, $controller, $location, itemCatService, goodsService,brandService) {
 
     $controller('baseController', {$scope: $scope});//继承
 
@@ -50,7 +50,7 @@ app.controller('goodsController', function ($scope, $controller, $location, item
                 findItemCat1($scope.entity.goods.category1Id);
                 findItemCat2($scope.entity.goods.category2Id);
                 findItemCat3($scope.entity.goods.category3Id);
-               // findBrand($scope.entity.goods.brandId);
+                findBrand($scope.entity.goods.brandId);
             }
         );
     }
@@ -78,13 +78,13 @@ app.controller('goodsController', function ($scope, $controller, $location, item
         )
     }
 
- /*   findBrand = function (id) {
+   findBrand = function (id) {
         brandService.findOne(id).success(
             function (response) {
                 $scope.brand = response;
             }
         )
-    }*/
+    }
 
 
     //保存

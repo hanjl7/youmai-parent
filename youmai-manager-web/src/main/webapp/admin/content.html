@@ -22,12 +22,14 @@
     <script type="text/javascript" src="../js/base_pagination.js"></script>
     <script type="text/javascript" src="../js/service/contentService.js"></script>
     <script type="text/javascript" src="../js/service/uploadService.js"></script>
+    <script type="text/javascript" src="../js/service/contentCategoryService.js"></script>
 
     <script type="text/javascript" src="../js/controller/baseController.js"></script>
     <script type="text/javascript" src="../js/controller/contentController.js"></script>
 
 </head>
-<body class="hold-transition skin-red sidebar-mini" ng-app="youmai" ng-controller="contentController">
+<body class="hold-transition skin-red sidebar-mini" ng-app="youmai" ng-controller="contentController"
+      ng-init="findContentCategoryList()">
 <!-- .box-body -->
 <div class="box-header with-border">
     <h3 class="box-title">管理</h3>
@@ -85,8 +87,10 @@
                 <td>{{entity.categoryId}}</td>
                 <td>{{entity.title}}</td>
                 <td>{{entity.url}}</td>
-                <td>{{entity.pic}}</td>
-                <td>{{entity.status}}</td>
+                <td>
+                    <img alt="" src="{{entity.pic}}" width="100px" height="50px">
+                </td>
+                <td>{{status[entity.status]}}</td>
                 <td>{{entity.sortOrder}}</td>
 
                 <td class="text-center">
@@ -117,9 +121,11 @@
                 <table class="table table-bordered table-striped" width="800px">
                     <tr>
 
-                        <td>内容类目ID</td>
+                        <td>内容类目</td>
 
-                        <td><input class="form-control" ng-model="entity.categoryId" placeholder="内容类目ID"></td>
+                        <td>
+                            <select class="form-control" ng-model="entity.categoryId" ng-options=" item.id as item.name for item in contentCategoryList"></select>
+                        </td>
 
                     </tr>
                     <tr>
@@ -138,16 +144,34 @@
                     </tr>
                     <tr>
 
-                        <td>图片绝对路径</td>
+                        <td>填写图片路径</td>
 
                         <td><input class="form-control" ng-model="entity.pic" placeholder="图片绝对路径"></td>
 
                     </tr>
                     <tr>
+                        <td>广告图片路径</td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input type="file" id="file"/>
+                                        <button class="btn btn-primary" type="button" ng-click="uploadFile()">
+                                            上传
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <img src="{{entity.pic}}" width="200px" height="100px">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
 
                         <td>状态</td>
 
-                        <td><input class="form-control" ng-model="entity.status" placeholder="状态"></td>
+                        <td><input type="checkbox" ng-model="entity.status" ng-true-value="1" ng-false-value="0" placeholder="状态"></td>
 
                     </tr>
                     <tr>
