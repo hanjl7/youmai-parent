@@ -57,5 +57,15 @@ public interface ContentService {
 	 * @return
 	 */
 	public PageResult findPage(TbContent content, int pageNum, int pageSize);
+
+	/**
+	 * @Description 根据广告类型id查询列表
+	 * @Date 19:44 2018/9/22
+	 * @Param [categoryId]
+	 * @return java.util.List<com.youmai.pojo.TbContent>
+	 **/
+	public List<TbContent> findByCategoryId(Long categoryId);
+
+
 	
 }

@@ -20,6 +20,7 @@
         <module>youmai-shop-web</module>
         <module>youmai-content-service</module>
         <module>youmai-content-interface</module>
+        <module>youmai-portal-web</module>
     </modules>
 
     <properties>

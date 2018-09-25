@@ -12,6 +12,7 @@
         <module name="youmai-dao" />
         <module name="youmai-manager-web" />
         <module name="youmai-pojo" />
+        <module name="youmai-portal-web" />
         <module name="youmai-sellergoods-interface" />
         <module name="youmai-sellergoods-service" />
         <module name="youmai-shop-web" />
