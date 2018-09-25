@@ -1,14 +1,14 @@
 package com.youmai.pojo;
 
-import org.apache.solr.client.solrj.beans.Field;
-import org.springframework.data.solr.core.mapping.Dynamic;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
-public class TbItem implements Serializable {
+import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.data.solr.core.mapping.Dynamic;
+
+public class TbItem implements Serializable{
 
     @Field
     private Long id;
@@ -36,7 +36,6 @@ public class TbItem implements Serializable {
 
     private Date createTime;
 
-    @Field("item_updatetime")
     private Date updateTime;
 
     private String itemSn;

@@ -40,11 +40,11 @@ public class SolrUtil {
         criteria.andStatusEqualTo("1");
         List<TbItem> itemList = itemMapper.selectByExample(example);
 
-        for (TbItem tbItem : itemList) {
+        for (TbItem item : itemList) {
             //将spec字段中的json字符串转换为map
-            Map specMap = JSON.parseObject(tbItem.getSpec());
+            Map specMap = JSON.parseObject(item.getSpec());
             //给带注解的字段赋值
-            tbItem.setSpecMap(specMap);
+            item.setSpecMap(specMap);
         }
 
         /*批量导入*/
@@ -53,5 +53,7 @@ public class SolrUtil {
 
     }
 
-
 }
+
+
+
