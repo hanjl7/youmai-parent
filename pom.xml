@@ -21,6 +21,9 @@
         <module>youmai-content-service</module>
         <module>youmai-content-interface</module>
         <module>youmai-portal-web</module>
+        <module>youmai-search-interface</module>
+        <module>youmai-search-service</module>
+        <module>youmai-search-web</module>
     </modules>
 
     <properties>

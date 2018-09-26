@@ -5,6 +5,8 @@
     <file type="web" url="file://$PROJECT_DIR$/youmai-content-service" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-manager-web" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-portal-web" />
+    <file type="web" url="file://$PROJECT_DIR$/youmai-search-service" />
+    <file type="web" url="file://$PROJECT_DIR$/youmai-search-web" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-sellergoods-service" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-shop-web" />
   </component>
@@ -14,6 +16,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/youmai-sellergoods-interface/pom.xml" />
         <option value="$PROJECT_DIR$/youmai-sellergoods-service/pom.xml" />
+        <option value="$PROJECT_DIR$/youmai-search-interface/pom.xml" />
       </list>
     </option>
   </component>

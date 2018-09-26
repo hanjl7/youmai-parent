@@ -4,6 +4,8 @@
     <file url="file://$PROJECT_DIR$/youmai-content-service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/youmai-manager-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/youmai-portal-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/youmai-search-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/youmai-search-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/youmai-sellergoods-service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/youmai-shop-web" charset="UTF-8" />
   </component>

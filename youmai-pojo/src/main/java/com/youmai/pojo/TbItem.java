@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.solr.core.mapping.Dynamic;
 
-public class TbItem implements Serializable{
+public class TbItem implements Serializable {
 
     @Field
     private Long id;
@@ -67,7 +67,7 @@ public class TbItem implements Serializable{
 
     @Dynamic
     @Field("item_spec_*")
-    private Map<String,String> specMap;
+    private Map<String, String> specMap;
 
     public Map<String, String> getSpecMap() {
         return specMap;
@@ -76,7 +76,6 @@ public class TbItem implements Serializable{
     public void setSpecMap(Map<String, String> specMap) {
         this.specMap = specMap;
     }
-
 
 
     public Long getId() {
