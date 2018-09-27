@@ -51,8 +51,15 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         List categoryList = searchCategory(searchMap);
         map.put("categoryList", categoryList);
         //3.根据模板id查询品牌规格列表
-        if (categoryList.size() > 0) {
-            map.putAll(searchBrandAndSpecList((String) categoryList.get(0)));
+        String categoryName = (String) searchMap.get("category");
+        if (!categoryName.equals("")) {
+            //分类有名称，按照分类名称查询
+            map.putAll(searchBrandAndSpecList(categoryName));
+        } else {
+            //没有分类名称
+            if (categoryList.size() > 0) {
+                map.putAll(searchBrandAndSpecList((String) categoryList.get(0)));
+            }
         }
         return map;
     }
@@ -63,34 +70,80 @@ public class ItemSearchServiceImpl implements ItemSearchService {
      * @Date 20:12 2018/9/26
      * @Param [searchMap]
      **/
-    private Map<String, Object> searchList(Map searchMap) {
-        Map<String, Object> map = new HashMap<>();
-
+    private Map searchList(Map searchMap) {
+        Map map = new HashMap();
         HighlightQuery query = new SimpleHighlightQuery();
-        //高亮列
-        HighlightOptions highlightOptions = new HighlightOptions().addField("item_title");
-        //高亮前缀
-        highlightOptions.setSimplePrefix("<em style='color:red'>");
-        //后缀
-        highlightOptions.setSimplePostfix("</em>");
-        query.setHighlightOptions(highlightOptions);
-
-        //查询条件
+        //高亮初始化
+        HighlightOptions highlightOptions = new HighlightOptions().addField("item_title");//设置高亮的域
+        highlightOptions.setSimplePrefix("<em style='color:red'>");//高亮前缀
+        highlightOptions.setSimplePostfix("</em>");//高亮后缀
+        query.setHighlightOptions(highlightOptions);//设置高亮选项
+        //1.按照关键字查询
         Criteria criteria = new Criteria("item_keywords").is(searchMap.get("keywords"));
         query.addCriteria(criteria);
 
+        //2.按照商品分类过滤
+        if (!"".equals(searchMap.get("category"))) {
+            //从前端传过来的结果中查询过滤  条件名称
+            Criteria criteriaCategory = new Criteria("item_category").is(searchMap.get("category"));
+            FilterQuery filterQuery = new SimpleFacetQuery(criteriaCategory);
+            query.addFilterQuery(filterQuery);
+        }
+
+        //3.按照品牌过滤
+        if (!"".equals(searchMap.get("brand"))) {
+            //从前端传过来的结果中查询过滤  条件名称
+            Criteria criteriaBrand = new Criteria("item_brand").is(searchMap.get("brand"));
+            FilterQuery filterQuery = new SimpleFacetQuery(criteriaBrand);
+            query.addFilterQuery(filterQuery);
+        }
+
+        //4.按照规格过滤 规格有多项，需要循环过滤。循环规格查询条件，根据key得到域名城，根据value设置过滤条件
+        if (searchMap.get("spec") != null) {
+            //从前端传过来的结果中查询过滤  条件名称
+            Map<String, String> specMap = (Map<String, String>) searchMap.get("spec");
+            for (String key : specMap.keySet()) {
+                Criteria criteriaSpec = new Criteria("item_spec_" + key).is(searchMap.get(searchMap.get(key)));
+                FilterQuery filterQuery = new SimpleFacetQuery(criteriaSpec);
+                query.addFilterQuery(filterQuery);
+            }
+        }
+
+        //5.按照价格过滤
+        if (!searchMap.get("price").equals("")) {
+            String[] price = ((String) searchMap.get("price")).split("-");
+            if (!price[0].equals("0")) {
+                //如果不是0开始  查询大于等于的价格
+                Criteria criteriaPrice = new Criteria("item_price").greaterThanEqual(price[0]);
+                FilterQuery filterQuery = new SimpleFacetQuery(criteriaPrice);
+                query.addFilterQuery(filterQuery);
+            }
+
+            if (!price[1].equals("*")) {
+                //如果不是*  查询小于等于的价格
+                Criteria criteriaPrice = new Criteria("item_price").lessThanEqual(price[1]);
+                FilterQuery filterQuery = new SimpleFacetQuery(criteriaPrice);
+                query.addFilterQuery(filterQuery);
+
+            }
+        }
+
+        //
+
+
+
+        /*高亮结果集*/
         HighlightPage<TbItem> page = solrTemplate.queryForHighlightPage(query, TbItem.class);
-        List<HighlightEntry<TbItem>> entryList = page.getHighlighted();
-        for (HighlightEntry<TbItem> entry : entryList) {
-            TbItem item = entry.getEntity();
-            if (entry.getHighlights().size() > 0 && entry.getHighlights().get(0).getSnipplets().size() > 0) {
-                //设置高亮结果
-                item.setTitle(entry.getHighlights().get(0).getSnipplets().get(0));
+        for (HighlightEntry<TbItem> h : page.getHighlighted()) {//循环高亮入口集合
+            TbItem item = h.getEntity();//获取原实体类
+            if (h.getHighlights().size() > 0 && h.getHighlights().get(0).getSnipplets().size() > 0) {
+                item.setTitle(h.getHighlights().get(0).getSnipplets().get(0));//设置高亮的结果
             }
         }
         map.put("rows", page.getContent());
         return map;
     }
+
 
     /**
      * @return java.util.List
@@ -138,7 +191,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             map.put("brandList", brandList);
             //根据模板id查询列表规格
             List specList = (List) redisTemplate.boundHashOps("specList").get(typeId);
-            map.put("spceLsit", specList);
+            map.put("specList", specList);
         }
 
         return map;
