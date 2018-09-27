@@ -128,9 +128,21 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             }
         }
 
-        //
-
-
+        //分页查询
+        //当前页码
+        Integer pageNo = (Integer) searchMap.get("pageNo");
+        if (pageNo == null) {
+            pageNo = 1;
+        }
+        //每页记录数
+        Integer pageSize = (Integer) searchMap.get("pageSize");
+        if (pageSize == null) {
+            pageNo = 20;
+        }
+        //起始索引 开始查询页码  1-1*20=0ye  2-1*20=20ye  3-1*20=40ye 4-1*20=60ye
+        query.setOffset((pageNo - 1) * pageSize);
+        //页面显示多少数据
+        query.setRows(pageSize);
 
         /*高亮结果集*/
         HighlightPage<TbItem> page = solrTemplate.queryForHighlightPage(query, TbItem.class);
@@ -141,6 +153,10 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             }
         }
         map.put("rows", page.getContent());
+        //总页数
+        map.put("totalPages", page.getTotalPages());
+        //总记录数
+        map.put("total", page.getTotalElements());
         return map;
     }
 

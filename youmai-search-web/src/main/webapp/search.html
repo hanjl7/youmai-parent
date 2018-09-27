@@ -169,6 +169,7 @@
                 <li class="tag" ng-repeat="(key,value) in searchMap.spec" ng-click="removeSearchItem(key)">
                     {{key}}:{{value}}<i
                         class="sui-icon icon-tb-close"></i></li>
+                搜索结果:{{resultMap.total}}条
             </ul>
             <form class="fl sui-form form-dark">
                 <div class="input-control control-right">
@@ -322,36 +323,25 @@
                     </li>
                 </ul>
             </div>
+            {{pageLabel}}
             <div class="fr page">
                 <div class="sui-pagination pagination-large">
                     <ul>
                         <li class="prev disabled">
-                            <a href="#">«上一页</a>
+                            <a href="#" ng-click="queryByPage(searchMap.pageNo-1)">«上一页</a>
                         </li>
-                        <li class="active">
-                            <a href="#">1</a>
-                        </li>
-                        <li>
-                            <a href="#">2</a>
-                        </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">5</a>
+                        <li class="active" ng-repeat="page in pageLabel">
+                            <a href="#" ng-click="queryByPage(page)">{{page}}</a>
                         </li>
                         <li class="dotted"><span>...</span></li>
                         <li class="next">
-                            <a href="#">下一页»</a>
+                            <a href="#" ng-click="queryByPage(searchMap.pageNo+1)">下一页»</a>
                         </li>
                     </ul>
-                    <div><span>共10页&nbsp;</span><span>
+                    <div><span>&nbsp;共{{resultMap.totalPages}}页&nbsp;</span><span>
       到第
-      <input type="text" class="page-num">
-      页 <button class="page-confirm" onclick="alert(1)">确定</button></span></div>
+      <input type="text" class="page-num" ng-model="searchMap.pageNo">
+      页 <button class="page-confirm" ng-click="queryByPage(searchMap.pageNo)">确定</button></span></div>
                 </div>
             </div>
         </div>
