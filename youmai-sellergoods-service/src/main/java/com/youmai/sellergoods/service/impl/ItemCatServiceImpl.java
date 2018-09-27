@@ -123,7 +123,7 @@ public class ItemCatServiceImpl implements ItemCatService {
             redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
         }
 
-        System.out.println("跟新缓存：商品分类列表");
+        System.out.println("更新缓存：商品分类列表");
 
         return itemCatMapper.selectByExample(example);
     }

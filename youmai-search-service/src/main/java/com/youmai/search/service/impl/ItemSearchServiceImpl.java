@@ -5,6 +5,7 @@ import com.youmai.pojo.TbItem;
 import com.youmai.search.service.ItemSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
 import org.springframework.data.solr.core.query.result.*;
@@ -27,6 +28,9 @@ public class ItemSearchServiceImpl implements ItemSearchService {
     @Autowired
     private SolrTemplate solrTemplate;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
     public Map<String, Object> search(Map searchMap) {
         Map<String, Object> map = new HashMap<>();
@@ -46,6 +50,10 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         //2.根据关键字查询商品分类
         List categoryList = searchCategory(searchMap);
         map.put("categoryList", categoryList);
+        //3.根据模板id查询品牌规格列表
+        if (categoryList.size() > 0) {
+            map.putAll(searchBrandAndSpecList((String) categoryList.get(0)));
+        }
         return map;
     }
 
@@ -114,6 +122,26 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         return list;
     }
 
+    /**
+     * @return java.util.Map
+     * @Description 查询品牌列表和规格列表
+     * @Date 16:03 2018/9/27
+     * @Param [category]
+     **/
+    private Map searchBrandAndSpecList(String category) {
+        Map map = new HashMap<>();
+        //查询出typeid
+        Long typeId = (Long) redisTemplate.boundHashOps("itemCat").get(category);
+        if (typeId != null) {
+            //根据模板id查询列表
+            List brandList = (List) redisTemplate.boundHashOps("brandList").get(typeId);
+            map.put("brandList", brandList);
+            //根据模板id查询列表规格
+            List specList = (List) redisTemplate.boundHashOps("specList").get(typeId);
+            map.put("spceLsit", specList);
+        }
 
+        return map;
+    }
 
 }
