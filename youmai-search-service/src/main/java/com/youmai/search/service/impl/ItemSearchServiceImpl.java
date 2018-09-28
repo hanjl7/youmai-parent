@@ -5,6 +5,7 @@ import com.youmai.pojo.TbItem;
 import com.youmai.search.service.ItemSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
@@ -33,6 +34,11 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
     @Override
     public Map<String, Object> search(Map searchMap) {
+
+        //关键字空格处理
+        String keywords = (String) searchMap.get("keywords");
+        searchMap.put("keywords", keywords.replace(" ", ""));
+
         Map<String, Object> map = new HashMap<>();
 
         System.out.println(searchMap);
@@ -128,7 +134,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             }
         }
 
-        //分页查询
+        //6.分页查询
         //当前页码
         Integer pageNo = (Integer) searchMap.get("pageNo");
         if (pageNo == null) {
@@ -143,6 +149,27 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         query.setOffset((pageNo - 1) * pageSize);
         //页面显示多少数据
         query.setRows(pageSize);
+
+
+        //7.排序
+        // ASC DESC
+        String sortValue = (String) searchMap.get("sort");
+        //排序字段
+        String sortField = (String) searchMap.get("sortField");
+        if (sortValue != null && !sortValue.equals("")) {
+            if (sortValue.equals("ASC")) {
+                //升序
+                Sort sort = new Sort(Sort.Direction.ASC, "item_" + sortField);
+                query.addSort(sort);
+            }
+            if (sortValue.equals("DESC")) {
+                //降序
+                Sort sort = new Sort(Sort.Direction.DESC, "item_" + sortField);
+                query.addSort(sort);
+            }
+        }
+
+
 
         /*高亮结果集*/
         HighlightPage<TbItem> page = solrTemplate.queryForHighlightPage(query, TbItem.class);

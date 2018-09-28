@@ -8,7 +8,9 @@ app.controller("searchController", function ($scope, searchService) {
         'spec': {},
         'price': '',
         'pageNo': 1,
-        'pageSize': 20
+        'pageSize': 20,
+        'sortField': '',
+        'sort': ''
     };
 
 
@@ -64,19 +66,30 @@ app.controller("searchController", function ($scope, searchService) {
         var firstPage = 1;
         //截至页码
         var lastPage = maxpageNo;
+        //前面的点
+        $scope.firstDot = true;
+        //后面的点
+        $scope.lastDot = true;
         if ($scope.resultMap.totalPages > 5) {
             //总页数大于5显示部分页码
             if ($scope.searchMap.pageNo <= 3) {
                 //如果当前页小于3
                 lastPage = 5;//显示前5页
+                //前五页没点
+                $scope.firstDot = false;
             } else if ($scope.searchMap.pageNo >= lastPage - 2) {
                 //当前页大于等于最大页码-2
                 firstPage = maxpageNo - 4;
+                $scope.lastDot = false;
             } else {
                 //显示当前页为中心的5页
                 firstPage = $scope.searchMap.pageNo - 2;
                 lastPage = $scope.searchMap.pageNo + 2;
             }
+        } else {
+            //页面小于5页没有点
+            $scope.firstDot = false;
+            $scope.lastDot = false;
         }
 
         for (var i = firstPage; i <= lastPage; i++) {
@@ -91,6 +104,31 @@ app.controller("searchController", function ($scope, searchService) {
             return;
         }
         $scope.searchMap.pageNo = pageNo;
+        $scope.search();
+    }
+
+    //判断当前页是否是第一页
+    $scope.isToPage = function () {
+        if ($scope.searchMap.pageNo == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //判断当前页是否是最后一页
+    $scope.isEndPage = function () {
+        if ($scope.searchMap.pageNo == $scope.resultMap.totalPages) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //设置排序规则
+    $scope.sortSearch = function (sortField, sort) {
+        $scope.searchMap.sortField = sortField;
+        $scope.searchMap.sort = sort;
         $scope.search();
     }
 

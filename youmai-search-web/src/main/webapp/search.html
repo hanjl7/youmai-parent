@@ -84,7 +84,8 @@
                                 <div class="input-append">
                                     <input type="text" id="autocomplete" ng-model="searchMap.keywords" type="text"
                                            class="input-error input-xxlarge"/>
-                                    <button class="sui-btn btn-xlarge btn-danger" ng-click="search()" type="button">搜索
+                                    <button class="sui-btn btn-xlarge btn-danger" ng-click="searchMap.pageNo=1;search()"
+                                            type="button">搜索
                                     </button>
                                 </div>
                             </form>
@@ -277,19 +278,22 @@
                 <div class="navbar-inner filter">
                     <ul class="sui-nav">
                         <li class="active">
-                            <a href="#">综合</a>
+                            <a href="#" ng-click="sortSearch('','')">综合</a>
                         </li>
                         <li>
                             <a href="#">销量</a>
                         </li>
                         <li>
-                            <a href="#">新品</a>
+                            <a href="#" ng-click="sortSearch('updateTime','ASC')">新品</a>
                         </li>
                         <li>
                             <a href="#">评价</a>
                         </li>
                         <li>
-                            <a href="#">价格</a>
+                            <a href="#" ng-click="sortSearch('price','ASC')">价格↑</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="sortSearch('price','DESC')">价格↓</a>
                         </li>
                     </ul>
                 </div>
@@ -327,15 +331,16 @@
             <div class="fr page">
                 <div class="sui-pagination pagination-large">
                     <ul>
-                        <li class="prev disabled">
-                            <a href="#" ng-click="queryByPage(searchMap.pageNo-1)">«上一页</a>
+                        <li class="prev {{isToPage()?'disabled':''}}">
+                            <a href="#" ng-click="queryByPage(searchMap.pageNo-1)">««</a>
                         </li>
+                        <li class="dotted" ng-if="firstDot == true"><span>...</span></li>
                         <li class="active" ng-repeat="page in pageLabel">
                             <a href="#" ng-click="queryByPage(page)">{{page}}</a>
                         </li>
-                        <li class="dotted"><span>...</span></li>
-                        <li class="next">
-                            <a href="#" ng-click="queryByPage(searchMap.pageNo+1)">下一页»</a>
+                        <li class="dotted" ng-if="lastDot == true"><span>...</span></li>
+                        <li class="next {{isEndPage()?'disabled':''}}">
+                            <a href="#" ng-click="queryByPage(searchMap.pageNo+1)">»»</a>
                         </li>
                     </ul>
                     <div><span>&nbsp;共{{resultMap.totalPages}}页&nbsp;</span><span>
