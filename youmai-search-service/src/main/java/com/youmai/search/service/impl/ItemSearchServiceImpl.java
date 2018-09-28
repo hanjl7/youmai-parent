@@ -71,6 +71,18 @@ public class ItemSearchServiceImpl implements ItemSearchService {
     }
 
     /**
+     * @return void
+     * @Description 导入数据
+     * @Date 19:35 2018/9/28
+     * @Param [list]
+     **/
+    @Override
+    public void importList(List list) {
+        solrTemplate.saveBeans(list);
+        solrTemplate.commit();
+    }
+
+    /**
      * @return java.util.List
      * @Description 返回高亮查询列表
      * @Date 20:12 2018/9/26
@@ -240,4 +252,18 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         return map;
     }
 
+    /**
+     * @return void
+     * @Description 删除索引库
+     * @Date 19:39 2018/9/28
+     * @Param [goodsIds]
+     **/
+    @Override
+    public void deleteByGoodsIds(List goodsIds) {
+        SimpleQuery query = new SimpleQuery();
+        Criteria criteria = new Criteria("item_goods").in(goodsIds);
+        query.addCriteria(criteria);
+        solrTemplate.delete(query);
+        solrTemplate.commit();
+    }
 }

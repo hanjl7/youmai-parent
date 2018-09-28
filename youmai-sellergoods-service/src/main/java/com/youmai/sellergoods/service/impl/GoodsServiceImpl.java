@@ -1,5 +1,6 @@
 package com.youmai.sellergoods.service.impl;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -306,5 +307,21 @@ public class GoodsServiceImpl implements GoodsService {
             tbGoods.setIsMarketable(status);
             goodsMapper.updateByPrimaryKey(tbGoods);
         }
+    }
+
+    /**
+     * @Description 按商品ID和状态查找商品列表
+     * @Date 19:30 2018/9/28
+     * @Param [goodsIds, status]
+     * @return java.util.List<com.youmai.pojo.TbItem>
+     **/
+    @Override
+    public List<TbItem> findItemListByGoodsIdAndStatus(Long[] goodsIds, String status) {
+        TbItemExample example = new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdIn(Arrays.asList(goodsIds));
+        criteria.andStatusEqualTo(status);
+
+        return itemMapper.selectByExample(example);
     }
 }

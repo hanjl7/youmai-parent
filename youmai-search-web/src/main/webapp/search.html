@@ -18,7 +18,7 @@
     <script type="text/javascript" src="/js/controller/searchController.js"></script>
 </head>
 
-<body ng-app="youmai" ng-controller="searchController">
+<body ng-app="youmai" ng-controller="searchController" ng-init="loadKeywords()">
 <!-- 头部栏位 -->
 <!--页面顶部-->
 <div id="nav-bottom">
@@ -192,7 +192,7 @@
                 </div>
                 <div class="fl ext"></div>
             </div>
-            <div class="type-wrap logo" ng-if="resultMap.brandList != null && searchMap.brand==''">
+            <div class="type-wrap logo" ng-if="resultMap.brandList != null && searchMap.brand=='' && keywordsIsBrand()==false">
                 <div class="fl key brand">品牌</div>
                 <div class="value logos">
                     <ul class="logo-list">
@@ -200,10 +200,6 @@
                             <a href="#" ng-click="addSearchItem('brand',brand.text)">{{brand.text}}</a>
                         </li>
                     </ul>
-                </div>
-                <div class="ext">
-                    <a href="javascript:void(0);" class="sui-btn">多选</a>
-                    <a href="javascript:void(0);">更多</a>
                 </div>
             </div>
 
