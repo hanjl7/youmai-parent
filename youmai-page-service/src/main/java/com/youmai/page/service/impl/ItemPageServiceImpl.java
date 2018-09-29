@@ -8,8 +8,11 @@ import com.youmai.pojo.TbGoods;
 import com.youmai.pojo.TbGoodsDesc;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import java.io.FileWriter;
@@ -35,15 +38,15 @@ public class ItemPageServiceImpl implements ItemPageService {
     private TbGoodsMapper goodsMapper;
 
     @Autowired
-    private TbGoodsDescMapper goodsDescMapper;
+   private FreeMarkerConfig freeMarkerConfig;
 
     @Autowired
-    private FreeMarkerConfigurer freeMarkerConfigurer;
+    private TbGoodsDescMapper goodsDescMapper;
 
     @Override
     public boolean genItemHtml(Long goodsId) {
 
-        Configuration configuration = freeMarkerConfigurer.getConfiguration();
+        Configuration configuration = freeMarkerConfig.getConfiguration();
         try {
             Template template = configuration.getTemplate("item.ftl");
             //创建数据模型
@@ -57,13 +60,15 @@ public class ItemPageServiceImpl implements ItemPageService {
 
             //输出
             Writer out = new FileWriter(pagedir + goodsId + ".html");
+            template.process(dateMap,out);
             out.close();
 
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
     }
+
 }
