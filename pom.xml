@@ -24,6 +24,8 @@
         <module>youmai-search-interface</module>
         <module>youmai-search-service</module>
         <module>youmai-search-web</module>
+        <module>youmai-page-interface</module>
+        <module>youmai-page-service</module>
     </modules>
 
     <properties>
@@ -60,7 +62,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <!--需要在pom.xml文件中配置resource，不然mapper.xml文件就会被漏掉！被漏掉！！被漏掉！！！-->
+        <!--需要在pom.xml文件中配置resource，不然.xml文件就会被漏掉！被漏掉！！被漏掉！！！-->
         <resources>
             <resource>
                 <directory>src/main/java</directory>
@@ -171,8 +173,6 @@
                 <artifactId>javassist</artifactId>
                 <version>3.20.0-GA</version>
             </dependency>
-
-
 
 
             <dependency>

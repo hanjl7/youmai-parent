@@ -11,6 +11,8 @@
         <module name="youmai-content-service" />
         <module name="youmai-dao" />
         <module name="youmai-manager-web" />
+        <module name="youmai-page-interface" />
+        <module name="youmai-page-service" />
         <module name="youmai-pojo" />
         <module name="youmai-portal-web" />
         <module name="youmai-search-interface" />

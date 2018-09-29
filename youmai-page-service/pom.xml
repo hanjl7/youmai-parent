@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>youmai-manager-web</artifactId>
+    <artifactId>youmai-page-service</artifactId>
     <packaging>war</packaging>
 
-    <name>youmai-manager-web Maven Webapp</name>
+    <name>youmai-page-service Maven Webapp</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
@@ -23,16 +23,6 @@
     </properties>
 
     <dependencies>
-
-        <!-- 身份验证 -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-        </dependency>
 
         <!-- Spring -->
         <dependency>
@@ -66,6 +56,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
         </dependency>
         <!-- dubbo相关 -->
         <dependency>
@@ -101,39 +95,10 @@
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!--freemarker依赖 -->
         <dependency>
-            <groupId>com.youmai</groupId>
-            <artifactId>youmai-pojo</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.youmai</groupId>
-            <artifactId>youmai-sellergoods-interface</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.youmai</groupId>
-            <artifactId>youmai-content-interface</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.youmai</groupId>
-            <artifactId>youmai-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.youmai</groupId>
-            <artifactId>youmai-search-interface</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
         </dependency>
         <dependency>
             <groupId>com.youmai</groupId>
@@ -141,9 +106,16 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.youmai</groupId>
+            <artifactId>youmai-dao</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>
+
 
     <build>
         <plugins>
@@ -155,15 +127,14 @@
                 <version>2.1</version>
                 <configuration>
                     <!-- 通过maven tomcat7:run运行项目时，访问项目的端口号 -->
-                    <port>9101</port>
+                    <port>9005</port>
                     <!-- 项目访问路径  本例：localhost:9090,  如果配置的aa， 则访问路径为localhost:9090/aa-->
                     <path>/</path>
                     <uriEncoding>GBK</uriEncoding>
                 </configuration>
             </plugin>
         </plugins>
-
-        <finalName>youmai-manager-web</finalName>
+        <finalName>youmai-page-service</finalName>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <plugin>

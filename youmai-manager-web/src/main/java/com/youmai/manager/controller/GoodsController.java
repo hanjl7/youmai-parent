@@ -3,6 +3,7 @@ package com.youmai.manager.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import com.youmai.page.service.ItemPageService;
 import com.youmai.pojo.TbItem;
 import com.youmai.pojogroup.Goods;
 import com.youmai.search.service.ItemSearchService;
@@ -160,4 +161,12 @@ public class GoodsController {
         }
     }
 
+
+    @Reference(timeout = 50000)
+    private ItemPageService itemPageService;
+
+    @RequestMapping("/genHtml")
+    public void getHtml(Long goodsId) {
+        itemPageService.genItemHtml(goodsId);
+    }
 }
