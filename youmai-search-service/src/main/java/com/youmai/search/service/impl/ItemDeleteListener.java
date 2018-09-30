@@ -27,13 +27,12 @@ public class ItemDeleteListener implements MessageListener {
     public void onMessage(Message message) {
         ObjectMessage objectMessage = (ObjectMessage) message;
         try {
-            Long[] ids = (Long[]) objectMessage.getObject();
-            System.out.println("itemDeleteListener监听收到消息" + ids);
+            Long[] goodsIds = (Long[]) objectMessage.getObject();
+            System.out.println("itemDeleteListener监听收到消息" + goodsIds.toString());
 
-            itemSearchService.deleteByGoodsIds(Arrays.asList(ids));
+            itemSearchService.deleteByGoodsIds(Arrays.asList(goodsIds));
 
-            System.out.println("删除索引库");
-            System.out.println("了");
+            System.out.println("删除索引库记录" + goodsIds.toString());
         } catch (JMSException e) {
             e.printStackTrace();
         }

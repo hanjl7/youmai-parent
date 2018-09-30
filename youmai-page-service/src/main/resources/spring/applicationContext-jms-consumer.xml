@@ -19,29 +19,29 @@
         <property name="targetConnectionFactory" ref="targetConnectionFactory"/>
     </bean>
 
-    <!--这个是队列目的地，点对点的  文本信息-->
-    <bean id="queueSolrDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="youmai_queue_solr"/>
+    <!--这个是订阅模式  文本信息-->
+    <bean id="topicPageDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="youmai_topic_page"/>
     </bean>
 
-    <!-- 消息监听容器  导入索引库-->
+
+    <!-- 消息监听容器 -->
     <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="destination" ref="queueSolrDestination"/>
-        <property name="messageListener" ref="itemSearchListener"/>
+        <property name="destination" ref="topicPageDestination"/>
+        <property name="messageListener" ref="pageListener"/>
     </bean>
 
 
-    <!--这个是队列目的地，点对点的  文本信息-->
-    <bean id="queueDeleteDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="youmai_queue_solr_delete"/>
+    <!--删除页面 -->
+    <bean id="topicPageDeleteDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="youmai_topic_page_delete"/>
     </bean>
-
-    <!-- 消息监听容器  导入索引库-->
+    <!-- 消息监听容器 -->
     <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="destination" ref="queueDeleteDestination"/>
-        <property name="messageListener" ref="itemDeleteListener"/>
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="topicPageDeleteDestination" />
+        <property name="messageListener" ref="pageDeleteListener" />
     </bean>
 
 </beans>

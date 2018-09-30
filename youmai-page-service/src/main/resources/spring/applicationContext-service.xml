@@ -9,10 +9,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <dubbo:protocol name="dubbo" port="20885"></dubbo:protocol>
-    <dubbo:application name="youmai-page-service"/>
-    <dubbo:registry address="zookeeper://192.168.25.25:2181"/>
-    <dubbo:annotation package="com.youmai.page.service.impl"/>
+    <context:component-scan base-package="com.youmai.page.service.impl"/>
 
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>

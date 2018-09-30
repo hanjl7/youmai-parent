@@ -27,17 +27,22 @@
     </bean>
     <!--这个是队列目的地，点对点的  文本信息-->
     <bean id="queueSolrDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="youmai-queue_solr"/>
+        <constructor-arg value="youmai_queue_solr"/>
     </bean>
 
     <bean id="queueDeleteDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="youmai-queue_solr_delete"/>
+        <constructor-arg value="youmai_queue_solr_delete"/>
     </bean>
 
 
     <!--这个是订阅模式  文本信息-->
-    <bean id="topicTextDestination" class="org.apache.activemq.command.ActiveMQTopic">
-        <constructor-arg value="topic_text"/>
+    <bean id="topicPageDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="youmai_topic_page"/>
+    </bean>
+
+    <!--这个是订阅模式  用于删除页面-->
+    <bean id="topicPageDeleteDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="youmai_topic_page_delete"/>
     </bean>
 
 

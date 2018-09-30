@@ -260,10 +260,14 @@ public class ItemSearchServiceImpl implements ItemSearchService {
      **/
     @Override
     public void deleteByGoodsIds(List goodsIds) {
-        SimpleQuery query = new SimpleQuery();
-        Criteria criteria = new Criteria("item_goods").in(goodsIds);
-        query.addCriteria(criteria);
-        solrTemplate.delete(query);
-        solrTemplate.commit();
+        try {
+            SimpleQuery query = new SimpleQuery("*:*");
+            Criteria criteria = new Criteria("item_goodsid").in(goodsIds);
+            query.addCriteria(criteria);
+            solrTemplate.delete(query);
+            solrTemplate.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

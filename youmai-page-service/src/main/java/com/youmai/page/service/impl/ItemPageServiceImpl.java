@@ -1,6 +1,5 @@
 package com.youmai.page.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.youmai.mapper.TbGoodsDescMapper;
 import com.youmai.mapper.TbGoodsMapper;
 import com.youmai.page.service.ItemPageService;
@@ -8,15 +7,13 @@ import com.youmai.pojo.TbGoods;
 import com.youmai.pojo.TbGoodsDesc;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +35,7 @@ public class ItemPageServiceImpl implements ItemPageService {
     private TbGoodsMapper goodsMapper;
 
     @Autowired
-   private FreeMarkerConfig freeMarkerConfig;
+    private FreeMarkerConfig freeMarkerConfig;
 
     @Autowired
     private TbGoodsDescMapper goodsDescMapper;
@@ -60,7 +57,7 @@ public class ItemPageServiceImpl implements ItemPageService {
 
             //输出
             Writer out = new FileWriter(pagedir + goodsId + ".html");
-            template.process(dateMap,out);
+            template.process(dateMap, out);
             out.close();
 
             return true;
@@ -71,4 +68,17 @@ public class ItemPageServiceImpl implements ItemPageService {
 
     }
 
+
+    @Override
+    public boolean deleteItemHtml(Long[] goodsId) {
+        try {
+            for (Long id : goodsId) {
+                new File(pagedir + id + ".html").delete();
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

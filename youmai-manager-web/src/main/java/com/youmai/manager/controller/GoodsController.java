@@ -53,7 +53,14 @@ public class GoodsController {
     private Destination queueDeleteDestination;
 
     @Autowired
+    private Destination topicPageDestination;
+
+    @Autowired
+    private Destination topicPageDeleteDestination;
+
+    @Autowired
     private JmsTemplate jmsTemplate;
+
 
     /**
      * 返回全部列表
@@ -137,7 +144,17 @@ public class GoodsController {
             goodsService.delete(ids);
             //   itemSearchService.deleteByGoodsIds(Arrays.asList(ids));
 
+            //删除solr索引库
             jmsTemplate.send(queueDeleteDestination, new MessageCreator() {
+                @Override
+                public Message createMessage(Session session) throws JMSException {
+                    return session.createObjectMessage(ids);
+                }
+            });
+
+
+            //删除静态页面
+            jmsTemplate.send(topicPageDeleteDestination, new MessageCreator() {
                 @Override
                 public Message createMessage(Session session) throws JMSException {
                     return session.createObjectMessage(ids);
@@ -176,23 +193,35 @@ public class GoodsController {
             goodsService.updateStatus(ids, status);
             //按照SPU ID查询 SKU列表(状态为1)
             if (status.equals("1")) {
+                //需要的SKU列表
                 List<TbItem> list = goodsService.findItemListByGoodsIdAndStatus(ids, status);
                 //调用搜索接口实现数据批量导入
-                if (list.size() > 0) {
-                    //itemSearchService.importList(list);
 
-                    final String jsonString = JSON.toJSONString(list);
-                    jmsTemplate.send(queueSolrDestination, new MessageCreator() {
+                //itemSearchService.importList(list);
+
+                final String jsonString = JSON.toJSONString(list);
+                jmsTemplate.send(queueSolrDestination, new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+
+                        return session.createTextMessage(jsonString);
+                    }
+                });
+
+
+                //生成商品详情页
+                for (final Long goodsId : ids) {
+                    //itemPageService.genItemHtml(goodsId);
+                    jmsTemplate.send(topicPageDestination, new MessageCreator() {
                         @Override
                         public Message createMessage(Session session) throws JMSException {
-
-                            return session.createTextMessage(jsonString);
+                            return session.createTextMessage(goodsId + "");
                         }
                     });
 
-                } else {
-                    System.out.println("没有更新数据");
                 }
+
+
             }
             return new Result(true, "修改成功");
         } catch (Exception e) {
@@ -208,5 +237,17 @@ public class GoodsController {
     @RequestMapping("/genHtml")
     public void getHtml(Long goodsId) {
         //itemPageService.genItemHtml(goodsId);
+
+
+        //网页静态化
+        //生成商品详情页
+        jmsTemplate.send(topicPageDestination, new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                return session.createTextMessage(goodsId + "");
+            }
+        });
+
+
     }
 }
