@@ -26,6 +26,7 @@
         <module>youmai-search-web</module>
         <module>youmai-page-interface</module>
         <module>youmai-page-service</module>
+        <module>youmai-page-web</module>
     </modules>
 
     <properties>

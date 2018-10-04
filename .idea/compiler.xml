@@ -13,6 +13,7 @@
         <module name="youmai-manager-web" />
         <module name="youmai-page-interface" />
         <module name="youmai-page-service" />
+        <module name="youmai-page-web" />
         <module name="youmai-pojo" />
         <module name="youmai-portal-web" />
         <module name="youmai-search-interface" />

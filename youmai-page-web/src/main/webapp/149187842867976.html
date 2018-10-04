@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <title>��Ʒ����ҳ</title>
+    <link rel="icon" href="assets/img/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="css/webbase.css"/>
+    <link rel="stylesheet" type="text/css" href="css/pages-item.css"/>
+    <link rel="stylesheet" type="text/css" href="css/pages-zoom.css"/>
+    <link rel="stylesheet" type="text/css" href="css/widget-cartPanelView.css"/>
+
+    <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="js/base.js"></script>
+    <script type="text/javascript" src="js/controller/itemController.js"></script>
+
+
+    <script>
+        //SKU�б�
+        var skuList = [
+                            {
+                    "id":1369293,
+                    "title": "�ȸ��۾��ƶ�4G16G",
+                    "price":14700.01,
+                    "spec":{"����":"�ƶ�4G","�����ڴ�":"16G"}
+                },
+                {
+                    "id":1369294,
+                    "title": "�ȸ��۾���ͨ4G16G",
+                    "price":14700.02,
+                    "spec":{"����":"��ͨ4G","�����ڴ�":"16G"}
+                },
+        ];
+    </script>
+
+
+</head>
+
+<body ng-app="youmai" ng-controller="itemController" ng-init="num=1;loadDefaultSKU()">
+
+<!--ҳ�涥�� ��ʼ-->
+<div id="nav-bottom">
+    <!--����-->
+    <div class="nav-top">
+        <div class="top">
+            <div class="py-container">
+                <div class="shortcut">
+                    <ul class="fl">
+                        <li class="f-item">����ӭ����</li>
+                        <li class="f-item">��<a href="login.html" target="_blank">��¼</a>��<span><a href="register.html" target="_blank">���ע��</a></span></li>
+                    </ul>
+                    <ul class="fr">
+                        <li class="f-item">�ҵĶ���</li>
+                        <li class="f-item space"></li>
+                        <li class="f-item"><a href="home.html" target="_blank">�ҵ�����</a></li>
+                        <li class="f-item space"></li>
+                        <li class="f-item">�����Ա</li>
+                        <li class="f-item space"></li>
+                        <li class="f-item">��ҵ�ɹ�</li>
+                        <li class="f-item space"></li>
+                        <li class="f-item">��ע����</li>
+                        <li class="f-item space"></li>
+                        <li class="f-item" id="service">
+                            <span>�ͻ�����</span>
+                            <ul class="service">
+                                <li><a href="cooperation.html" target="_blank">��������</a></li>
+                                <li><a href="shoplogin.html" target="_blank">�̼Һ�̨</a></li>
+                                <li><a href="cooperation.html" target="_blank">��������</a></li>
+                                <li><a href="#">�̼Һ�̨</a></li>
+                            </ul>
+                        </li>
+                        <li class="f-item space"></li>
+                        <li class="f-item">��վ����</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--ͷ��-->
+        <div class="header">
+            <div class="py-container">
+                <div class="yui3-g Logo">
+                    <div class="yui3-u Left logoArea">
+                        <a class="logo-bd" title="����" href="JD-index.html" target="_blank"></a>
+                    </div>
+                    <div class="yui3-u Center searchArea">
+                        <div class="search">
+                            <form action="" class="sui-form form-inline">
+                                <!--searchAutoComplete-->
+                                <div class="input-append">
+                                    <input type="text" id="autocomplete" type="text" class="input-error input-xxlarge" />
+                                    <button class="sui-btn btn-xlarge btn-danger" type="button">����</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="hotwords">
+                            <ul>
+                                <li class="f-item">�����׷�</li>
+                                <li class="f-item">��Ԫ�Ż�</li>
+                                <li class="f-item">9.9Ԫ�Ź�</li>
+                                <li class="f-item">ÿ��99��30</li>
+                                <li class="f-item">��Ԫ�Ż�</li>
+                                <li class="f-item">9.9Ԫ�Ź�</li>
+                                <li class="f-item">�칫��Ʒ</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="yui3-u Right shopArea">
+                        <div class="fr shopcar">
+                            <div class="show-shopcar" id="shopcar">
+                                <span class="car"></span>
+                                <a class="sui-btn btn-default btn-xlarge" href="cart.html" target="_blank">
+                                    <span>�ҵĹ��ﳵ</span>
+                                    <i class="shopnum">0</i>
+                                </a>
+                                <div class="clearfix shopcarlist" id="shopcarlist" style="display:none">
+                                    <p>"��Ŷ����Ĺ��ﳵ��û����ƷŶ��"</p>
+                                    <p>"��Ŷ����Ĺ��ﳵ��û����ƷŶ��"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="yui3-g NavList">
+                    <div class="yui3-u Left all-sort">
+                        <h4>ȫ����Ʒ����</h4>
+                    </div>
+                    <div class="yui3-u Center navArea">
+                        <ul class="nav">
+                            <li class="f-item">��װ��</li>
+                            <li class="f-item">��ױ��</li>
+                            <li class="f-item">Ʒ�ų���</li>
+                            <li class="f-item">ȫ��</li>
+                            <li class="f-item">����</li>
+                            <li class="f-item">�Ź�</li>
+                            <li class="f-item">��Ȥ</li>
+                            <li class="f-item"><a href="seckill-index.html" target="_blank">��ɱ</a></li>
+                        </ul>
+                    </div>
+                    <div class="yui3-u Right"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--ҳ�涥�� ����-->
+<div class="py-container">
+    <div id="item">
+        <div class="crumb-wrap">
+            <ul class="sui-breadcrumb">
+                <li>
+                    <a href="#">���ԡ��칫</a>
+                </li>
+                <li>
+                    <a href="#">�����Ʒ</a>
+                </li>
+                <li>
+                    <a href="#">���Թ���</a>
+                </li>
+            </ul>
+        </div>
+        <!--product-info-->
+        <div class="product-info">
+            <div class="fl preview-wrap">
+                <!--�Ŵ�Ч��-->
+                <div class="zoom">
+                    <!--Ĭ�ϵ�һ��Ԥ��-->
+                    <div id="preview" class="spec-preview">
+                        <span class="jqzoom">
+                            <img jqimg="http://192.168.25.133/group1/M00/00/00/wKgZhVukmn-AL_ZOAARP6_M98jk188.jpg" src="http://192.168.25.133/group1/M00/00/00/wKgZhVukmn-AL_ZOAARP6_M98jk188.jpg" width="400px" height="400px"/>
+                        </span>
+                    </div>
+                    <!--�·�������ͼ-->
+                    <div class="spec-scroll">
+                        <a class="prev">&lt;</a>
+                        <!--���Ұ�ť-->
+                        <div class="items">
+                            <ul>
+                                    <li><img src="http://192.168.25.133/group1/M00/00/00/wKgZhVukmn-AL_ZOAARP6_M98jk188.jpg" bimg="http://192.168.25.133/group1/M00/00/00/wKgZhVukmn-AL_ZOAARP6_M98jk188.jpg" onmousemove="preview(this)"/></li>
+                                    <li><img src="http://192.168.25.133/group1/M00/00/00/wKgZhVukmo2AIWPAAALf08Tb_4U373.jpg" bimg="http://192.168.25.133/group1/M00/00/00/wKgZhVukmo2AIWPAAALf08Tb_4U373.jpg" onmousemove="preview(this)"/></li>
+                            </ul>
+                        </div>
+                        <a class="next">&gt;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="fr itemInfo-wrap">
+                <div class="sku-name">
+                    <h4>{{sku.title}}</h4>
+                </div>
+                <div class="news"><span>����δ��</span></div>
+                <div class="summary">
+                    <div class="summary-wrap">
+                        <div class="fl title">
+                            <i>�ۡ�����</i>
+                        </div>
+                        <div class="fl price">
+                            <i>?</i>
+                            <em>{{sku.price}}</em>
+                            <span>����֪ͨ</span>
+                        </div>
+                        <div class="fr remark">
+                            <i>�ۼ�����</i><em>612188</em>
+                        </div>
+                    </div>
+                    <div class="summary-wrap">
+                        <div class="fl title">
+                            <i>�١�����</i>
+                        </div>
+                        <div class="fl fix-width">
+                            <i class="red-bg">�Ӽ۹�</i>
+                            <em class="t-gray">��999.00���20.00Ԫ������1999.00���30.00Ԫ������2999.00���40.00Ԫ�������ڹ��ﳵ��
+                                ��������Ʒ</em>
+                        </div>
+                    </div>
+                </div>
+                <div class="support">
+                    <div class="summary-wrap">
+                        <div class="fl title">
+                            <i>֧������</i>
+                        </div>
+                        <div class="fl fix-width">
+                            <em class="t-gray">�Ծɻ��£������ֻ����� 4G�ײͳ�ֵ�� ��Ʒ��</em>
+                        </div>
+                    </div>
+                    <div class="summary-wrap">
+                        <div class="fl title">
+                            <i>�� �� ��</i>
+                        </div>
+                        <div class="fl fix-width">
+                            <em class="t-gray">��999.00���20.00Ԫ������1999.00���30.00Ԫ������2999.00���40.00Ԫ�������ڹ��ﳵ����������Ʒ</em>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix choose">
+                    <div id="specification" class="summary-wrap clearfix">
+                            <dl>
+                                <dt>
+                                    <div class="fl title">
+                                        <i>����</i>
+                                    </div>
+                                </dt>
+                                    <dd>
+
+                                        <a href="javascript:;"
+                                           class="{{isSelected('����','�ƶ�4G')?'selected':''}}"
+                                           ng-click="selectSpecification('����','�ƶ�4G')">
+                                            �ƶ�4G<span title="���ȡ��ѡ��">&nbsp;</span></a>
+                                    </dd>
+                                    <dd>
+
+                                        <a href="javascript:;"
+                                           class="{{isSelected('����','��ͨ4G')?'selected':''}}"
+                                           ng-click="selectSpecification('����','��ͨ4G')">
+                                            ��ͨ4G<span title="���ȡ��ѡ��">&nbsp;</span></a>
+                                    </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <div class="fl title">
+                                        <i>�����ڴ�</i>
+                                    </div>
+                                </dt>
+                                    <dd>
+
+                                        <a href="javascript:;"
+                                           class="{{isSelected('�����ڴ�','16G')?'selected':''}}"
+                                           ng-click="selectSpecification('�����ڴ�','16G')">
+                                            16G<span title="���ȡ��ѡ��">&nbsp;</span></a>
+                                    </dd>
+                            </dl>
+                    </div>
+
+                    <div class="summary-wrap">
+                        <div class="fl title">
+                            <div class="control-group">
+                                <div class="controls">
+                                    <input autocomplete="off" ng-model="num" type="text" value="1" minnum="1"
+                                           class="itxt"/>
+                                    <a href="javascript:void(0)" ng-click="addNum(1)" class="increment plus">+</a>
+                                    <a href="javascript:void(0)" ng-click="addNum(-1)" class="increment mins">-</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fl">
+                            <ul class="btn-choose unstyled">
+                                <li>
+                                    <a href="cart.html" ng-click="addToCart()" target="_blank" class="sui-btn  btn-danger addshopcar">���빺�ﳵ</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--product-detail-->
+        <div class="clearfix product-detail">
+            <div class="fl aside">
+                <ul class="sui-nav nav-tabs tab-wraped">
+                    <li class="active">
+                        <a href="#index" data-toggle="tab">
+                            <span>��ط���</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#profile" data-toggle="tab">
+                            <span>�Ƽ�Ʒ��</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content tab-wraped">
+                    <div id="index" class="tab-pane active">
+                        <ul class="part-list unstyled">
+                            <li>�ֻ�</li>
+                            <li>�ֻ���</li>
+                            <li>�ڴ濨</li>
+                            <li>Iphone���</li>
+                            <li>��Ĥ</li>
+                            <li>�ֻ�����</li>
+                            <li>�ƶ���Դ</li>
+                            <li>ƽ�����</li>
+                        </ul>
+                        <ul class="goods-list unstyled">
+                            <li>
+                                <div class="list-wrap">
+                                    <div class="p-img">
+                                        <img src="img/_/part01.png"/>
+                                    </div>
+                                    <div class="attr">
+                                        <em>Appleƻ��iPhone 6s (A1699)</em>
+                                    </div>
+                                    <div class="price">
+                                        <strong>
+                                            <em>?</em>
+                                            <i>6088.00</i>
+                                        </strong>
+                                    </div>
+                                    <div class="operate">
+                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">���빺�ﳵ</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-wrap">
+                                    <div class="p-img">
+                                        <img src="img/_/part02.png"/>
+                                    </div>
+                                    <div class="attr">
+                                        <em>Appleƻ��iPhone 6s (A1699)</em>
+                                    </div>
+                                    <div class="price">
+                                        <strong>
+                                            <em>?</em>
+                                            <i>6088.00</i>
+                                        </strong>
+                                    </div>
+                                    <div class="operate">
+                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">���빺�ﳵ</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-wrap">
+                                    <div class="p-img">
+                                        <img src="img/_/part03.png"/>
+                                    </div>
+                                    <div class="attr">
+                                        <em>Appleƻ��iPhone 6s (A1699)</em>
+                                    </div>
+                                    <div class="price">
+                                        <strong>
+                                            <em>?</em>
+                                            <i>6088.00</i>
+                                        </strong>
+                                    </div>
+                                    <div class="operate">
+                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">���빺�ﳵ</a>
+                                    </div>
+                                </div>
+                                <div class="list-wrap">
+                                    <div class="p-img">
+                                        <img src="img/_/part02.png"/>
+                                    </div>
+                                    <div class="attr">
+                                        <em>Appleƻ��iPhone 6s (A1699)</em>
+                                    </div>
+                                    <div class="price">
+                                        <strong>
+                                            <em>?</em>
+                                            <i>6088.00</i>
+                                        </strong>
+                                    </div>
+                                    <div class="operate">
+                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">���빺�ﳵ</a>
+                                    </div>
+                                </div>
+                                <div class="list-wrap">
+                                    <div class="p-img">
+                                        <img src="img/_/part03.png"/>
+                                    </div>
+                                    <div class="attr">
+                                        <em>Appleƻ��iPhone 6s (A1699)</em>
+                                    </div>
+                                    <div class="price">
+                                        <strong>
+                                            <em>?</em>
+                                            <i>6088.00</i>
+                                        </strong>
+                                    </div>
+                                    <div class="operate">
+                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">���빺�ﳵ</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="profile" class="tab-pane">
+                        <p>�Ƽ�Ʒ��</p>
+                    </div>
+                </div>
+            </div>
+            <div class="fr detail">
+                <div class="clearfix fitting">
+                    <h4 class="kt">ѡ�����</h4>
+                    <div class="good-suits">
+                        <div class="fl master">
+                            <div class="list-wrap">
+                                <div class="p-img">
+                                    <img src="img/_/l-m01.png"/>
+                                </div>
+                                <em>��5299</em>
+                                <i>+</i>
+                            </div>
+                        </div>
+                        <div class="fl suits">
+                            <ul class="suit-list">
+                                <li class="">
+                                    <div id="">
+                                        <img src="img/_/dp01.png"/>
+                                    </div>
+                                    <i>Feless����˹VR</i>
+                                    <label data-toggle="checkbox" class="checkbox-pretty">
+                                        <input type="checkbox"><span>39</span>
+                                    </label>
+                                </li>
+                                <li class="">
+                                    <div id=""><img src="img/_/dp02.png"/></div>
+                                    <i>Feless����˹VR</i>
+                                    <label data-toggle="checkbox" class="checkbox-pretty">
+                                        <input type="checkbox"><span>50</span>
+                                    </label>
+                                </li>
+                                <li class="">
+                                    <div id=""><img src="img/_/dp03.png"/></div>
+                                    <i>Feless����˹VR</i>
+                                    <label data-toggle="checkbox" class="checkbox-pretty">
+                                        <input type="checkbox"><span>59</span>
+                                    </label>
+                                </li>
+                                <li class="">
+                                    <div id=""><img src="img/_/dp04.png"/></div>
+                                    <i>Feless����˹VR</i>
+                                    <label data-toggle="checkbox" class="checkbox-pretty">
+                                        <input type="checkbox"><span>99</span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="fr result">
+                            <div class="num">��ѡ��0����Ʒ</div>
+                            <div class="price-tit"><strong>�ײͼ�</strong></div>
+                            <div class="price">��5299</div>
+                            <button class="sui-btn  btn-danger addshopcar">���빺�ﳵ</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-main intro">
+                    <ul class="sui-nav nav-tabs tab-wraped">
+                        <li class="active">
+                            <a href="#one" data-toggle="tab">
+                                <span>��Ʒ����</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#two" data-toggle="tab">
+                                <span>������װ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#three" data-toggle="tab">
+                                <span>�ۺ���</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#four" data-toggle="tab">
+                                <span>��Ʒ����</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#five" data-toggle="tab">
+                                <span>�ֻ�����</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                    <div class="tab-content tab-wraped">
+                        <div id="one" class="tab-pane active">
+                            <ul class="goods-intro unstyled">
+                                        <li>�ڴ��С : 16</li>
+                                        <li>��ɫ : ��ɫ</li>
+                            </ul>
+                            <div class="intro-detail">
+                            <h1 style="text-align:center;">
+	<span style="color:#E56600;">����δ��</span> 
+</h1>
+                            </div>
+                        </div>
+                        <div id="two" class="tab-pane">
+                            <p>�ٷ���װ</p>
+                        </div>
+                        <div id="three" class="tab-pane">
+                            <p>ֻ������</p>
+                        </div>
+                        <div id="four" class="tab-pane">
+                            <p>��Ʒ����</p>
+                        </div>
+                        <div id="five" class="tab-pane">
+                            <p>�ֻ�����</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--like-->
+        <div class="clearfix"></div>
+        <div class="like">
+            <h4 class="kt">����ϲ��</h4>
+            <div class="like-list">
+                <ul class="yui3-g">
+                    <li class="yui3-u-1-6">
+                        <div class="list-wrap">
+                            <div class="p-img">
+                                <img src="img/_/itemlike01.png"/>
+                            </div>
+                            <div class="attr">
+                                <em>DELL����Ins 15MR-7528SS 15Ӣ�� ��ɫ �ʼǱ�</em>
+                            </div>
+                            <div class="price">
+                                <strong>
+                                    <em>?</em>
+                                    <i>3699.00</i>
+                                </strong>
+                            </div>
+                            <div class="commit">
+                                <i class="command">����6������</i>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="yui3-u-1-6">
+                        <div class="list-wrap">
+                            <div class="p-img">
+                                <img src="img/_/itemlike02.png"/>
+                            </div>
+                            <div class="attr">
+                                <em>Appleƻ��iPhone 6s/6s Plus 16G 64G 128G</em>
+                            </div>
+                            <div class="price">
+                                <strong>
+                                    <em>?</em>
+                                    <i>4388.00</i>
+                                </strong>
+                            </div>
+                            <div class="commit">
+                                <i class="command">����700������</i>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="yui3-u-1-6">
+                        <div class="list-wrap">
+                            <div class="p-img">
+                                <img src="img/_/itemlike03.png"/>
+                            </div>
+                            <div class="attr">
+                                <em>DELL����Ins 15MR-7528SS 15Ӣ�� ��ɫ �ʼǱ�</em>
+                            </div>
+                            <div class="price">
+                                <strong>
+                                    <em>?</em>
+                                    <i>4088.00</i>
+                                </strong>
+                            </div>
+                            <div class="commit">
+                                <i class="command">����700������</i>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="yui3-u-1-6">
+                        <div class="list-wrap">
+                            <div class="p-img">
+                                <img src="img/_/itemlike04.png"/>
+                            </div>
+                            <div class="attr">
+                                <em>DELL����Ins 15MR-7528SS 15Ӣ�� ��ɫ �ʼǱ�</em>
+                            </div>
+                            <div class="price">
+                                <strong>
+                                    <em>?</em>
+                                    <i>4088.00</i>
+                                </strong>
+                            </div>
+                            <div class="commit">
+                                <i class="command">����700������</i>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="yui3-u-1-6">
+                        <div class="list-wrap">
+                            <div class="p-img">
+                                <img src="img/_/itemlike05.png"/>
+                            </div>
+                            <div class="attr">
+                                <em>DELL����Ins 15MR-7528SS 15Ӣ�� ��ɫ �ʼǱ�</em>
+                            </div>
+                            <div class="price">
+                                <strong>
+                                    <em>?</em>
+                                    <i>4088.00</i>
+                                </strong>
+                            </div>
+                            <div class="commit">
+                                <i class="command">����700������</i>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="yui3-u-1-6">
+                        <div class="list-wrap">
+                            <div class="p-img">
+                                <img src="img/_/itemlike06.png"/>
+                            </div>
+                            <div class="attr">
+                                <em>DELL����Ins 15MR-7528SS 15Ӣ�� ��ɫ �ʼǱ�</em>
+                            </div>
+                            <div class="price">
+                                <strong>
+                                    <em>?</em>
+                                    <i>4088.00</i>
+                                </strong>
+                            </div>
+                            <div class="commit">
+                                <i class="command">����700������</i>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- �ײ���λ -->
+
+<!--ҳ��ײ�  ��ʼ -->
+<div class="clearfix footer">
+    <div class="py-container">
+        <div class="footlink">
+            <div class="Mod-service">
+                <ul class="Mod-Service-list">
+                    <li class="grid-service-item intro  intro1">
+
+                        <i class="serivce-item fl"></i>
+                        <div class="service-text">
+                            <h4>��Ʒ����</h4>
+                            <p>��Ʒ���ϣ��ṩ��Ʊ</p>
+                        </div>
+
+                    </li>
+                    <li class="grid-service-item  intro intro2">
+
+                        <i class="serivce-item fl"></i>
+                        <div class="service-text">
+                            <h4>��Ʒ����</h4>
+                            <p>��Ʒ���ϣ��ṩ��Ʊ</p>
+                        </div>
+
+                    </li>
+                    <li class="grid-service-item intro  intro3">
+
+                        <i class="serivce-item fl"></i>
+                        <div class="service-text">
+                            <h4>��Ʒ����</h4>
+                            <p>��Ʒ���ϣ��ṩ��Ʊ</p>
+                        </div>
+
+                    </li>
+                    <li class="grid-service-item  intro intro4">
+
+                        <i class="serivce-item fl"></i>
+                        <div class="service-text">
+                            <h4>��Ʒ����</h4>
+                            <p>��Ʒ���ϣ��ṩ��Ʊ</p>
+                        </div>
+
+                    </li>
+                    <li class="grid-service-item intro intro5">
+
+                        <i class="serivce-item fl"></i>
+                        <div class="service-text">
+                            <h4>��Ʒ����</h4>
+                            <p>��Ʒ���ϣ��ṩ��Ʊ</p>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+            <div class="clearfix Mod-list">
+                <div class="yui3-g">
+                    <div class="yui3-u-1-6">
+                        <h4>����ָ��</h4>
+                        <ul class="unstyled">
+                            <li>��������</li>
+                            <li>��Ա����</li>
+                            <li>��������/�Ź�</li>
+                            <li>��������</li>
+                            <li>����ָ��</li>
+                        </ul>
+
+                    </div>
+                    <div class="yui3-u-1-6">
+                        <h4>���ͷ�ʽ</h4>
+                        <ul class="unstyled">
+                            <li>��������</li>
+                            <li>211��ʱ��</li>
+                            <li>���ͷ����ѯ</li>
+                            <li>���ͷ���ȡ��׼</li>
+                            <li>��������</li>
+                        </ul>
+                    </div>
+                    <div class="yui3-u-1-6">
+                        <h4>֧����ʽ</h4>
+                        <ul class="unstyled">
+                            <li>��������</li>
+                            <li>����֧��</li>
+                            <li>���ڸ���</li>
+                            <li>�ʾֻ��</li>
+                            <li>��˾ת��</li>
+                        </ul>
+                    </div>
+                    <div class="yui3-u-1-6">
+                        <h4>�ۺ����</h4>
+                        <ul class="unstyled">
+                            <li>�ۺ�����</li>
+                            <li>�۸񱣻�</li>
+                            <li>�˿�˵��</li>
+                            <li>����/�˻���</li>
+                            <li>ȡ������</li>
+                        </ul>
+                    </div>
+                    <div class="yui3-u-1-6">
+                        <h4>��ɫ����</h4>
+                        <ul class="unstyled">
+                            <li>�ᱦ��</li>
+                            <li>DIYװ��</li>
+                            <li>�ӱ�����</li>
+                            <li>����E��</li>
+                            <li>����ͨ��</li>
+                        </ul>
+                    </div>
+                    <div class="yui3-u-1-6">
+                        <h4>��������</h4>
+                        <img src="img/wx_cz.jpg">
+                    </div>
+                </div>
+            </div>
+            <div class="Mod-copyright">
+                <ul class="helpLink">
+                    <li>��������<span class="space"></span></li>
+                    <li>��ϵ����<span class="space"></span></li>
+                    <li>��������<span class="space"></span></li>
+                    <li>�̼���פ<span class="space"></span></li>
+                    <li>Ӫ������<span class="space"></span></li>
+                    <li>��������<span class="space"></span></li>
+                    <li>��������<span class="space"></span></li>
+                    <li>Ӫ������<span class="space"></span></li>
+                    <li>��������<span class="space"></span></li>
+                    <li>��������</li>
+                </ul>
+                <p>��ַ�������в�ƽ�����ĳ���·�������칫¥һ�� �ʱࣺ100096 �绰��400-618-4000 ���棺010-82935100</p>
+                <p>��ICP��08001421�ž���������110108007702</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+	<!--������忪ʼ-->
+<div class="J-global-toolbar">
+    <div class="toolbar-wrap J-wrap">
+        <div class="toolbar">
+            <div class="toolbar-panels J-panel">
+
+                <!-- ���ﳵ -->
+                <div style="visibility: hidden;" class="J-content toolbar-panel tbar-panel-cart toolbar-animate-out">
+                    <h3 class="tbar-panel-header J-panel-header">
+                        <a href="" class="title"><i></i><em class="title">���ﳵ</em></a>
+                        <span class="close-panel J-close" onclick="cartPanelView.tbar_panel_close('cart');" ></span>
+                    </h3>
+                    <div class="tbar-panel-main">
+                        <div class="tbar-panel-content J-panel-content">
+                            <div id="J-cart-tips" class="tbar-tipbox hide">
+                                <div class="tip-inner">
+                                    <span class="tip-text">��û�е�¼����¼����Ʒ��������</span>
+                                    <a href="#none" class="tip-btn J-login">��¼</a>
+                                </div>
+                            </div>
+                            <div id="J-cart-render">
+                                <!-- �б� -->
+                                <div id="cart-list" class="tbar-cart-list">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- С�� -->
+                    <div id="cart-footer" class="tbar-panel-footer J-panel-footer">
+                        <div class="tbar-checkout">
+                            <div class="jtc-number"> <strong class="J-count" id="cart-number">0</strong>����Ʒ </div>
+                            <div class="jtc-sum"> ���ƣ�<strong class="J-total" id="cart-sum">?0</strong> </div>
+                            <a class="jtc-btn J-btn" href="#none" target="_blank">ȥ���ﳵ����</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- �ҵĹ�ע -->
+                <div style="visibility: hidden;" data-name="follow" class="J-content toolbar-panel tbar-panel-follow">
+                    <h3 class="tbar-panel-header J-panel-header">
+                        <a href="#" target="_blank" class="title"> <i></i> <em class="title">�ҵĹ�ע</em> </a>
+                        <span class="close-panel J-close" onclick="cartPanelView.tbar_panel_close('follow');"></span>
+                    </h3>
+                    <div class="tbar-panel-main">
+                        <div class="tbar-panel-content J-panel-content">
+                            <div class="tbar-tipbox2">
+                                <div class="tip-inner"> <i class="i-loading"></i> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tbar-panel-footer J-panel-footer"></div>
+                </div>
+
+                <!-- �ҵ��㼣 -->
+                <div style="visibility: hidden;" class="J-content toolbar-panel tbar-panel-history toolbar-animate-in">
+                    <h3 class="tbar-panel-header J-panel-header">
+                        <a href="#" target="_blank" class="title"> <i></i> <em class="title">�ҵ��㼣</em> </a>
+                        <span class="close-panel J-close" onclick="cartPanelView.tbar_panel_close('history');"></span>
+                    </h3>
+                    <div class="tbar-panel-main">
+                        <div class="tbar-panel-content J-panel-content">
+                            <div class="jt-history-wrap">
+                                <ul>
+                                    <!--<li class="jth-item">
+                                        <a href="#" class="img-wrap"> <img src=".portal/img/like_03.png" height="100" width="100" /> </a>
+                                        <a class="add-cart-button" href="#" target="_blank">���빺�ﳵ</a>
+                                        <a href="#" target="_blank" class="price">��498.00</a>
+                                    </li>
+                                    <li class="jth-item">
+                                        <a href="#" class="img-wrap"> <img src="portal/img/like_02.png" height="100" width="100" /></a>
+                                        <a class="add-cart-button" href="#" target="_blank">���빺�ﳵ</a>
+                                        <a href="#" target="_blank" class="price">��498.00</a>
+                                    </li>-->
+                                </ul>
+                                <a href="#" class="history-bottom-more" target="_blank">�鿴�����㼣��Ʒ &gt;&gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tbar-panel-footer J-panel-footer"></div>
+                </div>
+
+            </div>
+
+            <div class="toolbar-header"></div>
+
+            <!-- ������ť -->
+            <div class="toolbar-tabs J-tab">
+                <div onclick="cartPanelView.tabItemClick('cart')" class="toolbar-tab tbar-tab-cart" data="���ﳵ" tag="cart" >
+                    <i class="tab-ico"></i>
+                    <em class="tab-text"></em>
+                    <span class="tab-sub J-count " id="tab-sub-cart-count">0</span>
+                </div>
+                <div onclick="cartPanelView.tabItemClick('follow')" class="toolbar-tab tbar-tab-follow" data="�ҵĹ�ע" tag="follow" >
+                    <i class="tab-ico"></i>
+                    <em class="tab-text"></em>
+                    <span class="tab-sub J-count hide">0</span>
+                </div>
+                <div onclick="cartPanelView.tabItemClick('history')" class="toolbar-tab tbar-tab-history" data="�ҵ��㼣" tag="history" >
+                    <i class="tab-ico"></i>
+                    <em class="tab-text"></em>
+                    <span class="tab-sub J-count hide">0</span>
+                </div>
+            </div>
+
+            <div class="toolbar-footer">
+                <div class="toolbar-tab tbar-tab-top" > <a href="#"> <i class="tab-ico  "></i> <em class="footer-tab-text">����</em> </a> </div>
+                <div class="toolbar-tab tbar-tab-feedback" > <a href="#" target="_blank"> <i class="tab-ico"></i> <em class="footer-tab-text ">����</em> </a> </div>
+            </div>
+
+            <div class="toolbar-mini"></div>
+
+        </div>
+
+        <div id="J-toolbar-load-hook"></div>
+
+    </div>
+</div>
+
+<script type="text/template" id="tbar-cart-item-template">
+    <div class="tbar-cart-item" >
+        <div class="jtc-item-promo">
+            <em class="promo-tag promo-mz">����<i class="arrow"></i></em>
+            <div class="promo-text">�ѹ���600Ԫ����������Ʒ</div>
+        </div>
+        <div class="jtc-item-goods">
+            <span class="p-img"><a href="#" target="_blank"><img src="{2}" alt="{1}" height="50" width="50" /></a></span>
+            <div class="p-name">
+                <a href="#">{1}</a>
+            </div>
+            <div class="p-price"><strong>?{3}</strong>��{4} </div>
+            <a href="#none" class="p-del J-del">ɾ��</a>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#service").hover(function(){
+            $(".service").show();
+        },function(){
+            $(".service").hide();
+        });
+        $("#shopcar").hover(function(){
+            $("#shopcarlist").show();
+        },function(){
+            $("#shopcarlist").hide();
+        });
+
+    })
+</script>
+<script type="text/javascript" src="js/model/cartModel.js"></script>
+<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery.jqzoom/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="js/plugins/jquery.jqzoom/zoom.js"></script>
+<script type="text/javascript" src="index/index.js"></script>
+
+
+<!--ҳ��ײ�  ���� -->
+</body>
+
+</html>

@@ -9,7 +9,7 @@ import util.SolrUtil;
 
 /**
  * @ClassName: updateSolr
- * @Description: 更新列表
+ * @Description: 更新solr索引库列表
  * @Author: 泊松
  * @Date: 2018/9/25 20:14
  * @Version: 1.0
