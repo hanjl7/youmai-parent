@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="hancock_sms_service" />
         <module name="youmai-common" />
         <module name="youmai-content-interface" />
         <module name="youmai-content-service" />
@@ -22,6 +23,9 @@
         <module name="youmai-sellergoods-interface" />
         <module name="youmai-sellergoods-service" />
         <module name="youmai-shop-web" />
+        <module name="youmai-user-interface" />
+        <module name="youmai-user-service" />
+        <module name="youmai-user-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

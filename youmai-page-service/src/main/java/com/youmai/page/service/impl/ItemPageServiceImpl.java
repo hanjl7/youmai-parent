@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -56,6 +57,7 @@ public class ItemPageServiceImpl implements ItemPageService {
 
         Configuration configuration = freeMarkerConfig.getConfiguration();
         try {
+
             Template template = configuration.getTemplate("item.ftl");
             //创建数据模型
             Map dateMap = new HashMap<>();
