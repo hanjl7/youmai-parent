@@ -7,6 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="hancock_sms_service" />
+        <module name="youmai-cart-interface" />
+        <module name="youmai-cart-service" />
+        <module name="youmai-cart-web" />
         <module name="youmai-common" />
         <module name="youmai-content-interface" />
         <module name="youmai-content-service" />

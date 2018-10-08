@@ -30,6 +30,9 @@
         <module>youmai-user-interface</module>
         <module>youmai-user-service</module>
         <module>youmai-user-web</module>
+        <module>youmai-cart-interface</module>
+        <module>youmai-cart-service</module>
+        <module>youmai-cart-web</module>
     </modules>
 
     <properties>

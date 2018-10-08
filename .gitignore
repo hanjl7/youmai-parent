@@ -39,3 +39,6 @@ youmai-sellergoods-service/target/
 youmai-shop-web/target/
 youmai-manager-web/target
 db.properties
+/youmai-user-service/src/main/resources/properties/sms.properties
+/.idea/
+/youmai-parent.iml
