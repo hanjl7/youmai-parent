@@ -1,7 +1,7 @@
 {
   "list": [
     {
-    "name": "品优购页面",
+    "name": "优买页面",
     "item":[
         {
           "title":"购物流程页面",
@@ -21,7 +21,7 @@
         {
           "title":"个人中心",
            "datalist" :[
-              {"tit":"我的品优购","url":"home.html"},
+              {"tit":"我的优买","url":"home.html"},
               {"tit":"我的订单页","url":"myOrder.html"},
               {"tit":"收货地址","url":"addressList.html"}]
         },
