@@ -1,5 +1,5 @@
 /**
- * Created by hans on 2016/10/31.
+ *
  * 购物车数据
  */
 var cartModel = {
