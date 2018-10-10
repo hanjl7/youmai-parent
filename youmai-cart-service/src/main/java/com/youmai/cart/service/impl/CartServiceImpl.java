@@ -7,6 +7,7 @@ import com.youmai.pojo.TbItem;
 import com.youmai.pojo.TbOrderItem;
 import com.youmai.pojogroup.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,6 +25,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private TbItemMapper itemMapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * @return java.util.List<com.youmai.pojogroup.Cart>
@@ -84,6 +88,51 @@ public class CartServiceImpl implements CartService {
             }
         }
         return cartList;
+    }
+
+    /**
+     * @return java.util.List<com.youmai.pojogroup.Cart>
+     * @Description 登录后合并redis和cookie里的购物车列表
+     * @Date 11:07 2018/10/10
+     * @Param [cartListRedis, cartListCookie]
+     **/
+    @Override
+    public List<Cart> mergeCartList(List<Cart> cartListRedis, List<Cart> cartListCookie) {
+        System.out.println("登录后合并redis和cookie里的购物车列表");
+        for (Cart cart : cartListRedis) {
+            for (TbOrderItem orderItem : cart.getOrderItemList()) {
+                cartListRedis = addGoodsToCartList(cartListCookie, orderItem.getItemId(), orderItem.getNum());
+            }
+        }
+        return cartListRedis;
+    }
+
+    /**
+     * @return java.util.List<com.youmai.pojogroup.Cart>
+     * @Description 从Redis找到购物车清单
+     * @Date 10:24 2018/10/10
+     * @Param [username]
+     **/
+    @Override
+    public List<Cart> findCartListFromRedis(String username) {
+        System.out.println("从Redis找到购物车清单" + username);
+        List<Cart> cartList = (List<Cart>) redisTemplate.boundHashOps("cartList").get(username);
+        if (cartList == null) {
+            cartList = new ArrayList();
+        }
+        return cartList;
+    }
+
+    /**
+     * @return java.util.List<com.youmai.pojogroup.Cart>
+     * @Description 将购物车列表保存到Redis
+     * @Date 10:24 2018/10/10
+     * @Param [username, cartList]
+     **/
+    @Override
+    public void saveCartListToRedis(String username, List<Cart> cartList) {
+        System.out.println("将购物车列表保存到Redis" + username);
+        redisTemplate.boundHashOps("cartList").put(username, cartList);
     }
 
     /**
