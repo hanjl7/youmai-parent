@@ -71,7 +71,14 @@ app.controller('itemController', function ($scope, itemService) {
 
     //添加商品到购物车
     $scope.addToCart = function () {
-        itemService.saveCart($scope.sku.id, $scope.num);
-        alert("加入购物车成功");
+        itemService.saveCart($scope.sku.id, $scope.num).success(
+            function (response) {
+                if (response.success) {
+                    location.href = "http://localhost:9107/cart.html";
+                } else {
+                    alert(response.message);
+                }
+            }
+        )
     }
 });

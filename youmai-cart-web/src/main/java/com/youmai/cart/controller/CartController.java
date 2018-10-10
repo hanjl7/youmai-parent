@@ -7,6 +7,7 @@ import com.youmai.pojogroup.Cart;
 import entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import util.CookieUtil;
@@ -80,7 +81,17 @@ public class CartController {
      * @Param [itemId, num]
      **/
     @RequestMapping("/addGoodsToCartList")
+    @CrossOrigin(origins = "http://localhost:9105")
     public Result addGoodsToCartList(Long itemId, Integer num) {
+
+        /*//springMVC的版本在4.2或以上版本，可以使用注解实现跨域
+        //CORS跨域解决方案  它允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制  相当头信息
+        //第一个可以访问的域，不需要cookie
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:9105");
+        //第二个可以访问cookie，必须加上这句话
+        response.setHeader("Access-Control-Allow-Credentials", "true");*/
+
+
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("当前登录名添加" + username);
         try {
