@@ -1,5 +1,5 @@
 ﻿//控制层
-app.controller('itemController', function ($scope) {
+app.controller('itemController', function ($scope, itemService) {
 
     //批量效验
     $scope.addNum = function (x) {
@@ -66,11 +66,12 @@ app.controller('itemController', function ($scope) {
                 return;
             }
         }
-        $scope.sku={id:0,title:'--------',price:0}
+        $scope.sku = {id: 0, title: '--------', price: 0}
     }
 
     //添加商品到购物车
-    $scope.addToCart=function () {
-        alert('skuid'+$scope.sku.id);
+    $scope.addToCart = function () {
+        itemService.saveCart($scope.sku.id, $scope.num);
+        alert("加入购物车成功");
     }
 });

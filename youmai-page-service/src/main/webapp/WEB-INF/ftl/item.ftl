@@ -15,6 +15,7 @@
 
     <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="js/base.js"></script>
+    <script type="text/javascript" src="js/service/itemService.js"></script>
     <script type="text/javascript" src="js/controller/itemController.js"></script>
 
     <script>
@@ -172,7 +173,7 @@
                         <div class="fl">
                             <ul class="btn-choose unstyled">
                                 <li>
-                                    <a href="cart.html" ng-click="addToCart()" target="_blank"
+                                    <a  ng-click="addToCart()" target="_blank"
                                        class="sui-btn  btn-danger addshopcar">加入购物车</a>
                                 </li>
                             </ul>
