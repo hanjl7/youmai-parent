@@ -107,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
             tbOrder.setPayment(new BigDecimal(money));
-            orderMapper.insert(order);
+            orderMapper.insert(tbOrder);
         }
 
         redisTemplate.boundHashOps("cartList").delete(order.getUserId());

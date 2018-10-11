@@ -124,12 +124,10 @@
                                         <div class="control-group">
                                             <label class="control-label">是否设置默认地址：</label>
                                             <div class="controls">
-                                                <select class="input-medium">
-                                                    <option ng-model="newAddress.isDefault" value="0"
-                                                            ng-click="newAddress.isDefault='0'">否
+                                                <select class="input-medium" ng-model="newAddress.isDefault">
+                                                    <option  value="0" ng-click="newAddress.isDefault='0'">否
                                                     </option>
-                                                    <option ng-model="newAddress.isDefault" value="1"
-                                                            ng-click="newAddress.isDefault='1'">是
+                                                    <option  value="1" ng-click="newAddress.isDefault='1'">是
                                                     </option>
                                                 </select>
                                             </div>

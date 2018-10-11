@@ -43,9 +43,6 @@ app.controller('cartController', function ($scope, cartService) {
         )
     }
 
-    $scope.selectIsDefault = function (type) {
-        $scope.newAddress.isDefault = type;
-    }
 
     //选择地址
     $scope.selectAddress = function (address) {
