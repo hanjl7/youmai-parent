@@ -33,5 +33,15 @@ app.service('cartService', function ($http) {
         return $http.post('address/add.do', newAddress);
     }
 
+    this.findOne=function(id){
+        return $http.get('address/findOne.do?id='+id);
+    }
+
+    //保存订单
+    this.submitOrder=function(order){
+        return $http.post('order/add.do',order);
+    }
+
+
 
 });

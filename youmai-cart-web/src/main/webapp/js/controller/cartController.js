@@ -42,6 +42,11 @@ app.controller('cartController', function ($scope, cartService) {
             }
         )
     }
+
+    $scope.selectIsDefault = function (type) {
+        $scope.newAddress.isDefault = type;
+    }
+
     //选择地址
     $scope.selectAddress = function (address) {
         $scope.address = address;
@@ -56,11 +61,55 @@ app.controller('cartController', function ($scope, cartService) {
         }
     }
 
+    //添加收获地址
     $scope.saveAddress = function () {
         cartService.saveAddress($scope.newAddress).success(
             function (response) {
                 if (response.success) {
                     $scope.findAddressListByLoginUser();
+                } else {
+                    alert(response.message);
+                }
+            }
+        )
+    }
+
+    //默认付款方式
+    $scope.order = {paymentType: '1'};
+    //付款方式
+    $scope.selectPayType = function (type) {
+        $scope.order.paymentType = type;
+    }
+
+    //查询地址
+    $scope.findOne = function (id) {
+        cartService.findOne(id).success(
+            function (response) {
+                $scope.newAddress = response;
+            }
+        );
+    }
+
+    //保存订单
+    $scope.submitOrder = function () {
+        //订单地址
+        $scope.order.receiverAreaName = $scope.address.address;
+        //手机号
+        $scope.order.receiverMobile = $scope.address.mobile;
+        //联系人姓名
+        $scope.order.receiver = $scope.address.contact;
+
+        cartService.submitOrder($scope.order).success(
+            function (response) {
+                if (response.success) {
+                    //跳转支付页面
+                    if ($scope.order.paymentType = '1') {
+                        //微信支付页面
+                        location.href = "pay.html";
+                    } else {
+                        //货到付款
+                        location.href = "paysuccess.html";
+                    }
                 } else {
                     alert(response.message);
                 }

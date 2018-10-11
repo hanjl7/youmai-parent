@@ -6,6 +6,8 @@
     <file type="web" url="file://$PROJECT_DIR$/youmai-cart-web" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-content-service" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-manager-web" />
+    <file type="web" url="file://$PROJECT_DIR$/youmai-order-service" />
+    <file type="web" url="file://$PROJECT_DIR$/youmai-order-web" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-page-service" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-page-web" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-portal-web" />
@@ -25,6 +27,11 @@
         <option value="$PROJECT_DIR$/youmai-search-interface/pom.xml" />
         <option value="$PROJECT_DIR$/../hancock_sms_service/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/youmai-order-web/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_9" project-jdk-name="9.0" project-jdk-type="JavaSDK">

@@ -65,11 +65,7 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public void add(TbAddress address) {
-        if (address.getIsDefault().equals("是")) {
-            address.setIsDefault("1");
-        } else {
-            address.setIsDefault("0");
-        }
+
         addressMapper.insert(address);
     }
 

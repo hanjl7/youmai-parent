@@ -33,6 +33,8 @@
         <module>youmai-cart-interface</module>
         <module>youmai-cart-service</module>
         <module>youmai-cart-web</module>
+        <module>youmai-order-interface</module>
+        <module>youmai-order-service</module>
     </modules>
 
     <properties>

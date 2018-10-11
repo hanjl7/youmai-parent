@@ -16,7 +16,7 @@
     <script type="text/javascript" src="js/controller/cartController.js"></script>
 </head>
 
-<body ng-app="youmai" ng-controller="cartController" ng-init="findAddressListByLoginUser()">
+<body ng-app="youmai" ng-controller="cartController" ng-init="findAddressListByLoginUser();findCartList()">
 <!--head-->
 <div class="top">
     <div class="py-container">
@@ -65,7 +65,7 @@
             <!--收件人信息-->
             <div class="step-tit">
                 <h5>收件人信息<span><a data-toggle="modal" data-target=".edit" data-keyboard="false"
-                                  class="newadd">新增收货地址</a></span></h5>
+                                  class="newadd" ng-click="newAddress={}">新增收货地址</a></span></h5>
             </div>
             <div class="step-cont">
                 <div class="addressInfo">
@@ -79,7 +79,8 @@
                                 </div>
                                 <div class="con address">&nbsp;&nbsp;地址 :{{address.address}}&nbsp;&nbsp;<span> &nbsp;&nbsp; 联系电话 : {{address.mobile}}</span>
                                     <span class="base">默认地址</span>
-                                    <a class="base" data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑地址</a>
+                                    <a class="base" data-toggle="modal" data-target=".edit" data-keyboard="false"
+                                       ng-click="findOne(address.id)">编辑地址</a>
                                     <span class="edittext"><a data-toggle="modal" data-target=".edit"
                                                               data-keyboard="false">编辑</a>&nbsp;&nbsp;<a
                                             href="javascript:;">删除</a></span>
@@ -107,7 +108,7 @@
                                                 <input type="text" ng-model="newAddress.contact" class="input-medium">
                                             </div>
                                         </div>
-
+                                        {{newAddress}}
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
@@ -115,7 +116,7 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" >联系电话：</label>
+                                            <label class="control-label">联系电话：</label>
                                             <div class="controls">
                                                 <input type="text" ng-model="newAddress.mobile" class="input-medium">
                                             </div>
@@ -123,21 +124,26 @@
                                         <div class="control-group">
                                             <label class="control-label">是否设置默认地址：</label>
                                             <div class="controls">
-                                                <select   class="input-medium">
-                                                    <option ng-model="newAddress.isDefault" value="否">否</option>
-                                                    <option ng-model="newAddress.isDefault" value="是">是</option>
+                                                <select class="input-medium">
+                                                    <option ng-model="newAddress.isDefault" value="0"
+                                                            ng-click="newAddress.isDefault='0'">否
+                                                    </option>
+                                                    <option ng-model="newAddress.isDefault" value="1"
+                                                            ng-click="newAddress.isDefault='1'">是
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">地址别名：</label>
                                             <div class="controls">
-                                                <input type="text" ng-model="newAddress.alias"  class="input-medium"></input>
+                                                <input type="text" ng-model="newAddress.alias"
+                                                       class="input-medium"></input>
                                             </div>
                                             <div class="othername">
-                                                建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　
-                                                <a href="#" class="sui-btn btn-default">父母家</a>　
-                                                <a href="#" class="sui-btn btn-default">公司</a>
+                                                建议填写常用地址：<a href="#" class="sui-btn btn-default" ng-click="newAddress.alias='家里'">家里</a>　
+                                                <a href="#" class="sui-btn btn-default" ng-click="newAddress.alias='父母家'">父母家</a>　
+                                                <a href="#" class="sui-btn btn-default" ng-click="newAddress.alias='公司'">公司</a>
                                             </div>
                                         </div>
 
@@ -146,7 +152,8 @@
 
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large" ng-click="saveAddress()">确定
+                                    <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large"
+                                            ng-click="saveAddress()">确定
                                     </button>
                                     <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">
                                         取消
@@ -168,10 +175,11 @@
                 </div>
                 <div class="step-cont">
                     <ul class="payType">
-                        <li class="selected">微信付款<span title="点击取消选择"></span></li>
-                        <li>货到付款<span title="点击取消选择"></span></li>
+                        <li class="selected" ng-click="selectPayType('1')">微信付款<span title="点击取消选择"></span></li>
+                        <li ng-click="selectPayType('2')">货到付款<span title="点击取消选择"></span></li>
                     </ul>
                 </div>
+                {{order}}
                 <div class="hr"></div>
                 <div class="step-tit">
                     <h5>送货清单</h5>
@@ -179,22 +187,21 @@
                 <div class="step-cont">
                     <ul class="send-detail">
                         <li>
+                            <div class="sendGoods" ng-repeat="cart in cartList">
 
-                            <div class="sendGoods">
-
-                                <ul class="yui3-g">
+                                <ul class="yui3-g" ng-repeat="orderItem in cart.orderItemList">
                                     <li class="yui3-u-1-6">
-                                        <span><img src="img/goods.png"/></span>
+                                        <center><span><img src="{{orderItem.picPath}}"/></span></center>
                                     </li>
                                     <li class="yui3-u-7-12">
-                                        <div class="desc">Apple iPhone 6s (A1700) 64G 玫瑰金色 移动联通电信4G手机硅胶透明防摔软壳 本色系列</div>
-                                        <div class="seven">7天无理由退货</div>
+                                        <div class="desc"><center>{{orderItem.title}}</center></div>
+                                        <div class="seven"><center>7天无理由退货</center></div>
                                     </li>
                                     <li class="yui3-u-1-12">
-                                        <div class="price">￥5399.00</div>
+                                        <div class="price">￥{{orderItem.price}}</div>
                                     </li>
                                     <li class="yui3-u-1-12">
-                                        <div class="num">X1</div>
+                                        <div class="num">X{{orderItem.num}}</div>
                                     </li>
                                     <li class="yui3-u-1-12">
                                         <div class="exit">有货</div>
@@ -228,8 +235,8 @@
     <div class="order-summary">
         <div class="static fr">
             <div class="list">
-                <span><i class="number">1</i>件商品，总商品金额</span>
-                <em class="allprice">¥5399.00</em>
+                <span><i class="number">{{totalValue.totalNum}}</i>件商品，总商品金额</span>
+                <em class="allprice">¥{{totalValue.totalMoney.toFixed(2)}}</em>
             </div>
             <div class="list">
                 <span>返现：</span>
@@ -242,11 +249,11 @@
         </div>
     </div>
     <div class="clearfix trade">
-        <div class="fc-price">应付金额:　<span class="price">¥5399.00</span></div>
+        <div class="fc-price">应付金额:　<span class="price">¥{{totalValue.totalMoney.toFixed(2)}}</span></div>
         <div class="fc-receiverInfo">寄送至:{{address.address}} 收货人：{{address.contact}} {{address.mobile}}</div>
     </div>
     <div class="submit">
-        <a class="sui-btn btn-danger btn-xlarge" href="pay.html">提交订单</a>
+        <a class="sui-btn btn-danger btn-xlarge" ng-click="submitOrder()">提交订单</a>
     </div>
 </div>
 <!-- 底部栏位 -->
