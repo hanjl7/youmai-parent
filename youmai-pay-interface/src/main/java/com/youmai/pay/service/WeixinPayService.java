@@ -17,4 +17,12 @@ public interface WeixinPayService {
      * @Param [out_trade_no, total_fee]
      **/
     public Map createNative(String out_trade_no, String total_fee);
+
+    /**
+     * @Description 查询支付状态
+     * @Date 19:14 2018/10/12
+     * @Param [out_trade_no]
+     * @return java.util.Map
+     **/
+    public Map queryPayStatus(String out_trade_no);
 }

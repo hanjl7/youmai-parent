@@ -14,6 +14,7 @@
 
     <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="js/base.js"></script>
+    <script type="text/javascript" src="plugins/qrious.min.js"></script>
     <script type="text/javascript" src="js/service/payService.js"></script>
     <script type="text/javascript" src="js/controller/payController.js"></script>
 </head>
@@ -62,9 +63,9 @@
         <div class="checkout-steps">
             <div class="fl weixin">微信支付</div>
             <div class="fl sao">
-                <p class="red">二维码已过期，刷新页面重新获取二维码。</p>
+                <p class="red">{{messageNative}}</p>
                 <div class="fl code">
-                    <img src="qrious">
+                    <img id="qrious" ng-click="createNative()">
                     <div class="saosao">
                         <p>请使用微信扫一扫</p>
                         <p>扫描二维码支付</p>

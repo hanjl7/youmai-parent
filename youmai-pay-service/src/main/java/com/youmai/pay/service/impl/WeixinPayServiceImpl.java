@@ -83,4 +83,36 @@ public class WeixinPayServiceImpl implements WeixinPayService {
         }
 
     }
+
+    /**
+     * @return java.util.Map
+     * @Description 查询支付状态
+     * @Date 19:15 2018/10/12
+     * @Param [out_trade_no]
+     **/
+    @Override
+    public Map queryPayStatus(String out_trade_no) {
+        Map paramMap = new HashMap();
+        paramMap.put("appid",appid);
+        paramMap.put("mch_id",partner);
+        paramMap.put("out_trade_no", out_trade_no);
+        paramMap.put("nonce_str", WXPayUtil.generateNonceStr());
+        String url="https://api.mch.weixin.qq.com/pay/orderquery";
+
+        try {
+            String xmlParam = WXPayUtil.generateSignedXml(paramMap, partnerkey);
+            HttpClient client = new HttpClient(url);
+            client.setHttps(true);
+            client.setXmlParam(xmlParam);
+            client.post();
+            String result = client.getContent();
+            Map<String, String> map = WXPayUtil.xmlToMap(result);
+            System.out.println("支付结果"+map);
+            return map;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
