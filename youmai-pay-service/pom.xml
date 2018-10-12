@@ -9,13 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>youmai-cart-web</artifactId>
+    <artifactId>youmai-pay-service</artifactId>
     <packaging>war</packaging>
 
-    <name>youmai-cart-web Maven Webapp</name>
+    <name>youmai-pay-service Maven Webapp</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
-
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,6 +23,8 @@
     </properties>
 
     <dependencies>
+
+
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -93,49 +94,13 @@
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
+        <!--微信sdk-->
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>4.1.0.RELEASE</version>
+            <groupId>com.github.wxpay</groupId>
+            <artifactId>wxpay-sdk</artifactId>
+            <version>0.0.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>4.1.0.RELEASE</version>
-        </dependency>
-
-
-        <!--单点登录-->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-cas</artifactId>
-            <version>4.1.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jasig.cas.client</groupId>
-            <artifactId>cas-client-core</artifactId>
-            <version>3.3.3</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>log4j-over-slf4j</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.youmai</groupId>
-            <artifactId>youmai-pojo</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.youmai</groupId>
-            <artifactId>youmai-cart-interface</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>com.youmai</groupId>
             <artifactId>youmai-common</artifactId>
@@ -143,26 +108,15 @@
         </dependency>
         <dependency>
             <groupId>com.youmai</groupId>
-            <artifactId>youmai-user-interface</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.youmai</groupId>
-            <artifactId>youmai-order-interface</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.youmai</groupId>
             <artifactId>youmai-pay-interface</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-
     </dependencies>
 
+
     <build>
+
         <plugins>
             <!--tomcat插件-->
             <plugin>
@@ -172,7 +126,7 @@
                 <version>2.1</version>
                 <configuration>
                     <!-- 通过maven tomcat7:run运行项目时，访问项目的端口号 -->
-                    <port>9107</port>
+                    <port>9000</port>
                     <!-- 项目访问路径  本例：localhost:9090,  如果配置的aa， 则访问路径为localhost:9090/aa-->
                     <path>/</path>
                     <uriEncoding>GBK</uriEncoding>
@@ -181,7 +135,8 @@
         </plugins>
 
 
-        <finalName>youmai-cart-web</finalName>
+
+        <finalName>youmai-pay-service</finalName>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <plugin>

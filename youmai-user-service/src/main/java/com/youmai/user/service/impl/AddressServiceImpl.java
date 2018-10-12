@@ -65,7 +65,7 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public void add(TbAddress address) {
-
+        isDefaultAddress(address);
         addressMapper.insert(address);
     }
 
@@ -75,8 +75,27 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public void update(TbAddress address) {
+        isDefaultAddress(address);
         addressMapper.updateByPrimaryKey(address);
     }
+
+    /**
+     * @return void
+     * @Description 判断是否是默认地址，如果是更新全部为不是默认值
+     * @Date 16:29 2018/10/11
+     * @Param [address]
+     **/
+    private void isDefaultAddress(TbAddress address) {
+        if (address.getIsDefault().equals("1")) {
+            String userId = address.getUserId();
+            List<TbAddress> addressList = findAddressListByUserId(userId);
+            for (TbAddress tbAddress : addressList) {
+                tbAddress.setIsDefault("0");
+                addressMapper.updateByPrimaryKey(tbAddress);
+            }
+        }
+    }
+
 
     /**
      * 根据ID获取实体

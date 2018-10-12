@@ -88,6 +88,8 @@ public class AddressController {
     @RequestMapping("/update")
     public Result update(@RequestBody TbAddress address) {
         try {
+            String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+            address.setUserId(userName);
             addressService.update(address);
             return new Result(true, "修改成功");
         } catch (Exception e) {
@@ -127,7 +129,7 @@ public class AddressController {
     /**
      * 查询+分页
      *
-     * @param brand
+     * @param
      * @param page
      * @param rows
      * @return

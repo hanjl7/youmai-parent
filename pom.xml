@@ -35,6 +35,8 @@
         <module>youmai-cart-web</module>
         <module>youmai-order-interface</module>
         <module>youmai-order-service</module>
+        <module>youmai-pay-interface</module>
+        <module>youmai-pay-service</module>
     </modules>
 
     <properties>

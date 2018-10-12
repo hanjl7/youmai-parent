@@ -20,6 +20,8 @@
         <module name="youmai-page-interface" />
         <module name="youmai-page-service" />
         <module name="youmai-page-web" />
+        <module name="youmai-pay-interface" />
+        <module name="youmai-pay-service" />
         <module name="youmai-pojo" />
         <module name="youmai-portal-web" />
         <module name="youmai-search-interface" />

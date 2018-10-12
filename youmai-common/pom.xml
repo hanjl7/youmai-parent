@@ -82,6 +82,11 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--Http'Client依赖-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
 
     </dependencies>
 </project>
