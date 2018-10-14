@@ -42,8 +42,9 @@ public class PayController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         //得到redis中的数据
         TbPayLog payLog = orderService.searchPayLogFromRedis(username);
+        //判断支付日志是否存在
         if (payLog != null) {
-            return weixinPayService.createNative(payLog.getOutTradeNo(), payLog.getTotalFee() + "");
+            return weixinPayService.createNative(payLog.getOutTradeNo(), "1");
         } else {
             return new HashMap();
         }

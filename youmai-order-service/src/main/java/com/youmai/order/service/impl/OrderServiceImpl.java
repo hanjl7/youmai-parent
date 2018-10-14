@@ -73,6 +73,7 @@ public class OrderServiceImpl implements OrderService {
      **/
     @Override
     public void updateOrderStatus(String out_trade_no, String transaction_id) {
+        System.out.println("支付成功修改订单状态");
         //1 修改支付日志
         TbPayLog payLog = payLogMapper.selectByPrimaryKey(out_trade_no);
         payLog.setPayTime(new Date());
