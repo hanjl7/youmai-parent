@@ -88,7 +88,12 @@ public class AddressServiceImpl implements AddressService {
     private void isDefaultAddress(TbAddress address) {
         if (address.getIsDefault().equals("1")) {
             String userId = address.getUserId();
-            List<TbAddress> addressList = findAddressListByUserId(userId);
+            TbAddressExample example = new TbAddressExample();
+            Criteria criteria = example.createCriteria();
+            criteria.andUserIdEqualTo(userId);
+            criteria.andIsDefaultEqualTo("1");
+            List<TbAddress> addressList = addressMapper.selectByExample(example);
+
             for (TbAddress tbAddress : addressList) {
                 tbAddress.setIsDefault("0");
                 addressMapper.updateByPrimaryKey(tbAddress);

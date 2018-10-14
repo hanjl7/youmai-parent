@@ -1,12 +1,16 @@
 package com.youmai.cart.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.youmai.order.service.OrderService;
 import com.youmai.pay.service.WeixinPayService;
+import com.youmai.pojo.TbPayLog;
 import entity.Result;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import util.IdWorker;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,6 +27,9 @@ public class PayController {
     @Reference
     private WeixinPayService weixinPayService;
 
+    @Reference
+    private OrderService orderService;
+
     /**
      * @return java.util.Map
      * @Description 生成二维码
@@ -31,8 +38,16 @@ public class PayController {
      **/
     @RequestMapping("/createNative")
     public Map createNative() {
-        IdWorker idWorker = new IdWorker();
-        return weixinPayService.createNative(idWorker.nextId() + "", "1");
+        //获取当前用户
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        //得到redis中的数据
+        TbPayLog payLog = orderService.searchPayLogFromRedis(username);
+        if (payLog != null) {
+            return weixinPayService.createNative(payLog.getOutTradeNo(), payLog.getTotalFee() + "");
+        } else {
+            return new HashMap();
+        }
+
     }
 
     @RequestMapping("/queryPayStatus")
@@ -49,6 +64,9 @@ public class PayController {
 
             if (map.get("trade_state").equals("SUCCESS")) {
                 result = new Result(true, "支付成功");
+                //修改订单状态
+                orderService.updateOrderStatus(out_trade_no, (String) map.get("transaction_id"));
+
                 break;
             }
 

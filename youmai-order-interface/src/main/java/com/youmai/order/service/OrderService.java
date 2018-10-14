@@ -2,6 +2,7 @@ package com.youmai.order.service;
 import java.util.List;
 import com.youmai.pojo.TbOrder;
 
+import com.youmai.pojo.TbPayLog;
 import entity.PageResult;
 /**
  * 服务层接口
@@ -57,5 +58,16 @@ public interface OrderService {
 	 * @return
 	 */
 	public PageResult findPage(TbOrder order, int pageNum, int pageSize);
-	
+
+
+	/**
+	 * @Description 从Redis搜索支付日志
+	 * @Date 21:55 2018/10/12
+	 * @Param [userId]
+	 * @return com.youmai.pojo.TbPayLog
+	 **/
+	public TbPayLog searchPayLogFromRedis(String userId);
+
+
+	public void updateOrderStatus(String out_trade_no, String transaction_id);
 }
