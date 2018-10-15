@@ -2,6 +2,9 @@ package com.youmai.cart.controller;
 
 import java.util.List;
 
+import com.youmai.pojo.TbAreas;
+import com.youmai.pojo.TbCities;
+import com.youmai.pojo.TbProvinces;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,21 @@ public class AddressController {
     @Reference
     private AddressService addressService;
 
+
+    @RequestMapping("/findProvinces")
+    public List<TbProvinces> findProvinces() {
+        return addressService.findProvinces();
+    }
+
+    @RequestMapping("/findCitiesByProvinces")
+    public List<TbCities> findCitiesByProvinces(String provincesId) {
+        return addressService.findCities(provincesId);
+    }
+
+    @RequestMapping("/findAreasByCities")
+    public List<TbAreas> findAreasByCities(String citiesId) {
+        return addressService.findAreas(citiesId);
+    }
 
     /**
      * @return entity.Result

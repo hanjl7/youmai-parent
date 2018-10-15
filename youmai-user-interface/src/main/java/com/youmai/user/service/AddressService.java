@@ -2,6 +2,9 @@ package com.youmai.user.service;
 import java.util.List;
 import com.youmai.pojo.TbAddress;
 
+import com.youmai.pojo.TbAreas;
+import com.youmai.pojo.TbCities;
+import com.youmai.pojo.TbProvinces;
 import entity.PageResult;
 /**
  * 服务层接口
@@ -10,6 +13,19 @@ import entity.PageResult;
  */
 public interface AddressService {
 
+
+    /**
+     * @Description 找省份
+     * @Date 19:08 2018/10/15
+     * @Param []
+     * @return java.util.List<com.youmai.pojo.TbProvinces>
+     **/
+    public List<TbProvinces> findProvinces();
+
+
+    public List<TbCities> findCities(String provinceId);
+
+    public List<TbAreas> findAreas(String citiesId);
     /**
      * @Description 按用户ID查找地址列表
      * @Date 17:01 2018/10/10

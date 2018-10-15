@@ -42,6 +42,17 @@ app.service('cartService', function ($http) {
         return $http.post('order/add.do',order);
     }
 
+    this.findProvinces=function () {
+        return $http.get('address/findProvinces.do');
+    }
+
+    this.findCitiesByProvinces=function (provinceId) {
+        return $http.get('address/findCitiesByProvinces.do?provincesId='+provinceId);
+    }
+
+    this.findAreasByCities=function (citiesId) {
+        return $http.get('address/findAreasByCities.do?citiesId='+citiesId);
+    }
 
 
 });

@@ -2,17 +2,20 @@ package com.youmai.user.service.impl;
 
 import java.util.List;
 
+import com.youmai.mapper.TbAreasMapper;
+import com.youmai.mapper.TbCitiesMapper;
+import com.youmai.mapper.TbProvincesMapper;
+import com.youmai.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.youmai.mapper.TbAddressMapper;
-import com.youmai.pojo.TbAddress;
-import com.youmai.pojo.TbAddressExample;
 import com.youmai.pojo.TbAddressExample.Criteria;
 import com.youmai.user.service.AddressService;
 
 import entity.PageResult;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * 服务实现层
@@ -26,6 +29,76 @@ public class AddressServiceImpl implements AddressService {
     @Autowired
     private TbAddressMapper addressMapper;
 
+    @Autowired
+    private TbProvincesMapper provincesMapper;
+
+    @Autowired
+    private TbCitiesMapper citiesMapper;
+
+    @Autowired
+    private TbAreasMapper areasMapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    /**
+     * @return java.util.List<com.youmai.pojo.TbProvinces>
+     * @Description 找省份
+     * @Date 19:08 2018/10/15
+     * @Param []
+     **/
+    @Override
+    public List<TbProvinces> findProvinces() {
+        List<TbProvinces> provinces = (List<TbProvinces>) redisTemplate.boundHashOps("address").get("provinces");
+        if (provinces == null || provinces.size() == 0) {
+            provinces = provincesMapper.selectByExample(null);
+            System.out.println("province存入缓存");
+            redisTemplate.boundHashOps("address").put("provinces", provinces);
+        } else {
+            System.out.println("从缓存中查询Provinces");
+        }
+        return provinces;
+    }
+
+    /**
+     * @return java.util.List<com.youmai.pojo.TbCities>
+     * @Description 根据省份找区域
+     * @Date 20:04 2018/10/15
+     * @Param []
+     **/
+    @Override
+    public List<TbCities> findCities(String provinceId) {
+        List<TbCities> cities = (List<TbCities>) redisTemplate.boundHashOps("address").get(provinceId);
+        if (cities == null || cities.size() == 0) {
+            TbCitiesExample example = new TbCitiesExample();
+            TbCitiesExample.Criteria criteria = example.createCriteria();
+            criteria.andProvinceidEqualTo(provinceId);
+            cities = citiesMapper.selectByExample(example);
+            redisTemplate.boundHashOps("address").put(provinceId, cities);
+            System.out.println("cities 存入缓存");
+        }
+        return cities;
+    }
+
+    /**
+     * @return java.util.List<com.youmai.pojo.TbAreas>
+     * @Description 根据城市找区域
+     * @Date 20:05 2018/10/15
+     * @Param []
+     **/
+    @Override
+    public List<TbAreas> findAreas(String citiesId) {
+        List<TbAreas> areas = (List<TbAreas>) redisTemplate.boundHashOps("address").get(citiesId);
+        if (areas == null || areas.size() == 0) {
+            TbAreasExample example = new TbAreasExample();
+            TbAreasExample.Criteria criteria = example.createCriteria();
+            criteria.andCityidEqualTo(citiesId);
+            areas = areasMapper.selectByExample(example);
+            redisTemplate.boundHashOps("address").put(citiesId, areas);
+            System.out.println("areas 存储到缓存");
+        }
+        return areas;
+    }
 
     /**
      * @return java.util.List<com.youmai.pojo.TbAddress>

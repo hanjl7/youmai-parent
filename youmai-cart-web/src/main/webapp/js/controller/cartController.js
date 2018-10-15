@@ -1,5 +1,5 @@
 //购物车控制层 
-app.controller('cartController', function ($scope, cartService) {
+app.controller('cartController', function ($scope, $location, cartService) {
     //查询购物车列表
     $scope.findCartList = function () {
         cartService.findCartList().success(
@@ -113,4 +113,37 @@ app.controller('cartController', function ($scope, cartService) {
             }
         )
     }
+
+    $scope.findProvinces = function () {
+        cartService.findProvinces().success(
+            function (response) {
+                $scope.provinces = response;
+            }
+        )
+
+    }
+
+    $scope.$watch('newAddress.provinceId', function (newValue, oldValue) {
+        //判断如果时undefined的 不进行请求
+        if (typeof(newValue) != "undefined") {
+            //根据选择值查询下一级
+            cartService.findCitiesByProvinces(newValue).success(
+                function (response) {
+                    $scope.cities = response;
+                }
+            );
+        }
+
+    })
+
+    $scope.$watch('newAddress.cityId', function (newValue, oldValue) {
+        //判断如果时undefined的 不进行请求
+        if (typeof(newValue) != "undefined") {
+            cartService.findAreasByCities(newValue).success(
+                function (response) {
+                    $scope.town = response;
+                }
+            )
+        }
+    })
 });

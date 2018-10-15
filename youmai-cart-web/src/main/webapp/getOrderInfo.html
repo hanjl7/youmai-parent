@@ -16,7 +16,8 @@
     <script type="text/javascript" src="js/controller/cartController.js"></script>
 </head>
 
-<body ng-app="youmai" ng-controller="cartController" ng-init="findAddressListByLoginUser();findCartList()">
+<body ng-app="youmai" ng-controller="cartController"
+      ng-init="findAddressListByLoginUser();findCartList();findProvinces()">
 <!--head-->
 <div class="top">
     <div class="py-container">
@@ -110,6 +111,20 @@
                                         </div>
                                         {{newAddress}}
                                         <div class="control-group">
+                                            <label class="control-label">所在地区：</label>
+                                            <div class="controls">
+                                                <select class="form-control" ng-model="newAddress.provinceId"
+                                                        ng-options="item.provinceid as item.province for item in provinces">
+                                                </select>
+                                                <select class="form-control" ng-model="newAddress.cityId"
+                                                        ng-options="city.cityid as city.city for city in cities">
+                                                </select>
+                                                <select class="form-control" ng-model="newAddress.townId"
+                                                        ng-options="area.areaid as area.area for area in town">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
                                                 <input type="text" ng-model="newAddress.address" class="input-large">
@@ -125,9 +140,9 @@
                                             <label class="control-label">是否设置默认地址：</label>
                                             <div class="controls">
                                                 <select class="input-medium" ng-model="newAddress.isDefault">
-                                                    <option  value="0" ng-click="newAddress.isDefault='0'">否
+                                                    <option value="0" ng-click="newAddress.isDefault='0'">否
                                                     </option>
-                                                    <option  value="1" ng-click="newAddress.isDefault='1'">是
+                                                    <option value="1" ng-click="newAddress.isDefault='1'">是
                                                     </option>
                                                 </select>
                                             </div>
@@ -139,9 +154,12 @@
                                                        class="input-medium"></input>
                                             </div>
                                             <div class="othername">
-                                                建议填写常用地址：<a href="#" class="sui-btn btn-default" ng-click="newAddress.alias='家里'">家里</a>　
-                                                <a href="#" class="sui-btn btn-default" ng-click="newAddress.alias='父母家'">父母家</a>　
-                                                <a href="#" class="sui-btn btn-default" ng-click="newAddress.alias='公司'">公司</a>
+                                                建议填写常用地址：<a href="#" class="sui-btn btn-default"
+                                                            ng-click="newAddress.alias='家里'">家里</a>　
+                                                <a href="#" class="sui-btn btn-default"
+                                                   ng-click="newAddress.alias='父母家'">父母家</a>　
+                                                <a href="#" class="sui-btn btn-default"
+                                                   ng-click="newAddress.alias='公司'">公司</a>
                                             </div>
                                         </div>
 
@@ -192,8 +210,12 @@
                                         <center><span><img src="{{orderItem.picPath}}"/></span></center>
                                     </li>
                                     <li class="yui3-u-7-12">
-                                        <div class="desc"><center>{{orderItem.title}}</center></div>
-                                        <div class="seven"><center>7天无理由退货</center></div>
+                                        <div class="desc">
+                                            <center>{{orderItem.title}}</center>
+                                        </div>
+                                        <div class="seven">
+                                            <center>7天无理由退货</center>
+                                        </div>
                                     </li>
                                     <li class="yui3-u-1-12">
                                         <div class="price">￥{{orderItem.price}}</div>
