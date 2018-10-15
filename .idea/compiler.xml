@@ -27,6 +27,9 @@
         <module name="youmai-search-interface" />
         <module name="youmai-search-service" />
         <module name="youmai-search-web" />
+        <module name="youmai-seckill-interface" />
+        <module name="youmai-seckill-service" />
+        <module name="youmai-seckill-web" />
         <module name="youmai-sellergoods-interface" />
         <module name="youmai-sellergoods-service" />
         <module name="youmai-shop-web" />

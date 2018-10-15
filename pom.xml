@@ -37,6 +37,9 @@
         <module>youmai-order-service</module>
         <module>youmai-pay-interface</module>
         <module>youmai-pay-service</module>
+        <module>youmai-seckill-interface</module>
+        <module>youmai-seckill-service</module>
+        <module>youmai-seckill-web</module>
     </modules>
 
     <properties>

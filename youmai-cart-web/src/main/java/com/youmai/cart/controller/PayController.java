@@ -44,7 +44,7 @@ public class PayController {
         TbPayLog payLog = orderService.searchPayLogFromRedis(username);
         //判断支付日志是否存在
         if (payLog != null) {
-            return weixinPayService.createNative(payLog.getOutTradeNo(), "1");
+            return weixinPayService.createNative(payLog.getOutTradeNo(), payLog.getTotalFee() + "");
         } else {
             return new HashMap();
         }
@@ -74,7 +74,7 @@ public class PayController {
             count++;
             System.out.println("count = " + count);
             if (count >= 10) {
-                result=new Result(false,"二维码超时");
+                result = new Result(false, "二维码超时");
                 break;
             }
 
