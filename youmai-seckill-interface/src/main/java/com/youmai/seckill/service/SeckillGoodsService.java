@@ -12,6 +12,13 @@ public interface SeckillGoodsService {
 
 
     /**
+     * @Description 从redis中查询实体
+     * @Date 16:47 2018/10/15
+     * @Param [id]
+     * @return com.youmai.pojo.TbSeckillGoods
+     **/
+    public TbSeckillGoods findOneFromRedis(Long id);
+    /**
      * @Description 返回正在秒杀的商品
      * @Date 21:21 2018/10/14
      * @Param []

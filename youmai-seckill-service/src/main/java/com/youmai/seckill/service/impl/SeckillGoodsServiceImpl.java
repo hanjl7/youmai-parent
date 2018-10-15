@@ -14,6 +14,7 @@ import com.youmai.pojo.TbSeckillGoodsExample.Criteria;
 import com.youmai.seckill.service.SeckillGoodsService;
 
 import entity.PageResult;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * 服务实现层
@@ -26,6 +27,20 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
     @Autowired
     private TbSeckillGoodsMapper seckillGoodsMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+
+    /**
+     * @Description 从redis中查询实体
+     * @Date 16:48 2018/10/15
+     * @Param [id]
+     * @return com.youmai.pojo.TbSeckillGoods
+     **/
+    @Override
+    public TbSeckillGoods findOneFromRedis(Long id) {
+        return (TbSeckillGoods) redisTemplate.boundHashOps("seckillGoods").get(id);
+    }
 
     /**
      * @return java.util.List<com.youmai.pojo.TbSeckillGoods>
@@ -35,16 +50,27 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
      **/
     @Override
     public List<TbSeckillGoods> findList() {
-        TbSeckillGoodsExample example = new TbSeckillGoodsExample();
-        Criteria criteria = example.createCriteria();
-        criteria.andStatusEqualTo("1");
-        //库存大于0
-        criteria.andStockCountGreaterThan(0);
-        //开始时间小于当前时间
-        criteria.andStartTimeLessThanOrEqualTo(new Date());
-        //结束时间不能大于当前时间
-        criteria.andEndTimeGreaterThan(new Date());
-        return seckillGoodsMapper.selectByExample(example);
+        List<TbSeckillGoods> seckillGoods = redisTemplate.boundHashOps("seckillGoods").values();
+
+        if (seckillGoods == null || seckillGoods.size() == 0) {
+            //缓存中没有添加进缓存
+            TbSeckillGoodsExample example = new TbSeckillGoodsExample();
+            Criteria criteria = example.createCriteria();
+            criteria.andStatusEqualTo("1");
+            //库存大于0 大于
+            criteria.andStockCountGreaterThan(0);
+            //开始时间小于当前时间
+            criteria.andStartTimeLessThanOrEqualTo(new Date());
+            //结束时间不能大于当前时间
+            criteria.andEndTimeGreaterThan(new Date());
+            seckillGoods = seckillGoodsMapper.selectByExample(example);
+            System.out.println("将秒杀列表存入redis缓存");
+            for (TbSeckillGoods tbSeckillGood : seckillGoods) {
+                redisTemplate.boundHashOps("seckillGoods").put(tbSeckillGood.getId(), tbSeckillGood);
+            }
+        }
+        return seckillGoods;
+
     }
 
     /**
