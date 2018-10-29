@@ -24,10 +24,10 @@ import java.util.Map;
 @RequestMapping("pay")
 public class PayController {
 
-   // @Reference
+    @Reference
     private WeixinPayService weixinPayService;
 
-    //@Reference
+    @Reference
     private OrderService orderService;
 
     /**

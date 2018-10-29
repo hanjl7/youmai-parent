@@ -33,6 +33,7 @@
         <module name="youmai-sellergoods-interface" />
         <module name="youmai-sellergoods-service" />
         <module name="youmai-shop-web" />
+        <module name="youmai-task-service" />
         <module name="youmai-user-interface" />
         <module name="youmai-user-service" />
         <module name="youmai-user-web" />

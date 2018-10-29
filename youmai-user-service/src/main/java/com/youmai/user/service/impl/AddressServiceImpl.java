@@ -75,7 +75,7 @@ public class AddressServiceImpl implements AddressService {
             criteria.andProvinceidEqualTo(provinceId);
             cities = citiesMapper.selectByExample(example);
             redisTemplate.boundHashOps("address").put(provinceId, cities);
-            System.out.println("cities 存入缓存");
+            System.out.println("cities 存入redis缓存");
         }
         return cities;
     }
@@ -193,6 +193,7 @@ public class AddressServiceImpl implements AddressService {
     public void delete(Long[] ids) {
         for (Long id : ids) {
             addressMapper.deleteByPrimaryKey(id);
+
         }
     }
 

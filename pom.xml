@@ -40,6 +40,7 @@
         <module>youmai-seckill-interface</module>
         <module>youmai-seckill-service</module>
         <module>youmai-seckill-web</module>
+        <module>youmai-task-service</module>
     </modules>
 
     <properties>

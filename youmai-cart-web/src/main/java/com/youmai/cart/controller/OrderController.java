@@ -22,7 +22,7 @@ import entity.Result;
 @RequestMapping("/order")
 public class OrderController {
 
-   // @Reference
+    @Reference
     private OrderService orderService;
 
     /**

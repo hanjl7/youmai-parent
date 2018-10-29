@@ -18,6 +18,7 @@
     <file type="web" url="file://$PROJECT_DIR$/youmai-seckill-web" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-sellergoods-service" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-shop-web" />
+    <file type="web" url="file://$PROJECT_DIR$/youmai-task-service" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-user-service" />
     <file type="web" url="file://$PROJECT_DIR$/youmai-user-web" />
   </component>
